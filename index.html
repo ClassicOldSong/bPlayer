@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>bPlayer Demo</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="bplayer.js"></script>
+</head>
+<body>
+	<div style="margin: 0 auto; max-width: 900px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+		<div class="bPlayer">
+			<div class="cover_bplayer">
+				<div class="coverimg_bplayer"></div>
+				<div class="controlbtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div>
+				<div class="controlbtn_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div>
+			</div>
+			<div class="title_bplayer">Title</div>
+			<div class="author_bplayer">Author</div>
+			<div class="buttons_bplayer">
+				<div class="volume_bplayer">
+					<div id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div>
+					<div class="volumebar_bplayer"></div>
+				</div>
+				<div id="cycleBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div>
+			</div>
+			<div class="progress_bplayer">
+				<div class="loaded_bplayer"></div>
+				<div class="played_bplayer"></div>
+			</div>
+			<audio><source src=""></audio>
+		</div>
+	</div>
+</body>
+</html>
