@@ -3,26 +3,36 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>bPlayer Demo</title>
-	<link rel="stylesheet" href="style.css">
+	<title>bPlayer - 比原生播放器好一点点</title>
+	<link rel="stylesheet" href="bplayer.css">
 	<script src="bplayer.js"></script>
 </head>
 <body>
 	<div style="margin: 0 auto; max-width: 900px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
 		<div class="bPlayer">
+			<div class="info_bplayer">
+				<div class="titlewrap_bplayer">
+					<span class="title_bplayer">Title标题</span><span class="author_bplayer">Author作者</span>
+				</div>
+				<div class="time_bplayer">
+					<span class="current_bplayer">11:47</span>
+					<span class="total_bplayer">23:33</span>
+				</div>
+				<div class="buttons_bplayer">
+					<div class="btn_bplayer" id="cycleBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div>
+					<div class="volume_bplayer">
+						<div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div>
+						<div class="volumebar_bplayer">
+							<div class="volumebg_bplayer"></div>
+							<div class="volumeval_bplayer"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="cover_bplayer">
 				<div class="coverimg_bplayer"></div>
 				<div class="controlbtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div>
-				<div class="controlbtn_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div>
-			</div>
-			<div class="title_bplayer">Title</div>
-			<div class="author_bplayer">Author</div>
-			<div class="buttons_bplayer">
-				<div class="volume_bplayer">
-					<div id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div>
-					<div class="volumebar_bplayer"></div>
-				</div>
-				<div id="cycleBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div>
+				<div class="controlbtn_bplayer" id="pauseBtn_bplayer" style="display: none;"><i class="iconfont_bplayer">&#xe603;</i></div>
 			</div>
 			<div class="progress_bplayer">
 				<div class="loaded_bplayer"></div>
