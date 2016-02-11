@@ -3,42 +3,73 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="msapplication-tap-highlight" content="no"/>
 	<title>bPlayer - 比原生播放器好一点点</title>
 	<link rel="stylesheet" href="bplayer.css">
 	<script src="bplayer.js"></script>
+	<script>
+		window.onload = function() {
+			var bp1 = new bPlayer();
+			var bp2 = new bPlayer();
+			var bp3 = new bPlayer();
+			bp1.attach("#bp1").color("#66ccff").autoplay(true).src("http://m2.music.126.net/6wFgmjNVtAKKGuCtThjvWA==/1984618488140540.mp3").title("WolfRed").artist("Jelonek").cover("http://p1.music.126.net/2Ud6-aBR505cdusUwCkTKQ==/815837627851851.jpg?param=60x60").init();
+			bp2.attach("#bp2").color("#CC3366").src("http://m2.music.126.net/Ne2y18_WUIHdGaXjjZSKwA==/7857110092450532.mp3").title("Vibrance").artist("Wisp X").cover("http://p1.music.126.net/jg2j75C9gk9Hs79zHtEbtQ==/7731765766799148.jpg?param=60x60").init();
+			bp3.attach("#bp3").color("#00B999").src("http://m2.music.126.net/5U19JiKhhy6aDvrdg0nQvw==/1189671581253705.mp3").title("The Awakening").artist("Arkasia").cover("http://p1.music.126.net/rzGgj69MVp2np9ckRE5G4A==/712483534805961.jpg?param=60x60").init();
+			window.bp1 = bp1;
+			window.bp2 = bp2;
+			window.bp3 = bp3;
+		}
+	</script>
+	<style>
+		html {
+			font-family:
+		Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", STXihei, STHeiti, Heiti, SimSun, sans-serif;
+		}
+		code {
+			border: 1px solid #999;
+			border-radius: 5px;
+			background-color: #AAA;
+			padding: 3px 5px;
+			color: #FFF;
+		}
+		a{
+			text-decoration: none;
+			color:#666;
+		}
+			a:hover{
+				color:#999;
+			}
+		p{
+			line-height: 2em;
+			margin:0 0 20px;
+			text-align: center;
+		}
+		.center {
+			margin: 0 auto;
+			max-width: 900px;
+		}
+		.test {
+			margin: 30px auto;
+		}
+		.links{
+			margin:20px 0;
+			font-size: 0.75em;
+			text-align: center;
+		}
+	</style>
 </head>
 <body>
-	<div style="margin: 0 auto; max-width: 900px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
-		<div class="bPlayer">
-			<div class="info_bplayer">
-				<div class="titlewrap_bplayer">
-					<span class="title_bplayer">Title标题</span><span class="author_bplayer">Author作者</span>
-				</div>
-				<div class="time_bplayer">
-					<span class="current_bplayer">11:47</span>
-					<span class="total_bplayer">23:33</span>
-				</div>
-				<div class="buttons_bplayer">
-					<div class="btn_bplayer" id="cycleBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div>
-					<div class="volume_bplayer">
-						<div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div>
-						<div class="volumebar_bplayer">
-							<div class="volumebg_bplayer"></div>
-							<div class="volumeval_bplayer"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="cover_bplayer">
-				<div class="coverimg_bplayer"></div>
-				<div class="controlbtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div>
-				<div class="controlbtn_bplayer" id="pauseBtn_bplayer" style="display: none;"><i class="iconfont_bplayer">&#xe603;</i></div>
-			</div>
-			<div class="progress_bplayer">
-				<div class="loaded_bplayer"></div>
-				<div class="played_bplayer"></div>
-			</div>
-			<audio><source src=""></audio>
+	<div class="center">
+		<h1>bPlayer - 比原生播放器好一点点</h1>
+		<div id="bp1" class="test"><h3>#bp1</h3></div>
+		<div id="bp2" class="test"><h3>#bp2</h3></div>
+		<div id="bp3" class="test"><h3>#bp3</h3></div>
+		<hr />
+		<p>可以尝试打开控制台对 bp1, bp2, bp3 进行控制，例如：<code>bp1.color("#FF2870");</code></p>
+		<br />
+		<div class="links">
+			<a href="https://github.com/ClassicOldSong/bPlayer" target="_blank">View on GitHub</a> | <a href="https://nzone.link" target="_blank">Visit NZone!</a> | <a href="http://classicoldsong.me" target="_blank">Visit my blog</a>
 		</div>
 	</div>
 </body>
