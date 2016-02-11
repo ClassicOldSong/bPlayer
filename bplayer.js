@@ -161,9 +161,6 @@
 			}
 			this.play = function() {
 				songAudio.play();
-				addClass.call(playBtn, 'hidden_bplayer');
-				removeClass.call(pauseBtn, 'hidden_bplayer');
-				playing = true;
 				return _this;
 			}
 			this.pause = function() {
@@ -269,6 +266,11 @@
 				removeClass.call(pauseBtn, 'hidden_bplayer');
 				total.textContent = formatTime(this.duration);
 				playing = true;
+			}
+			songAudio.onended = function() {
+				if (!_this.loop()) {
+					_this.pause();
+				}
 			}
 
 			return _this;
