@@ -88,6 +88,7 @@
 	height: 60px;
 	font-size: 20px;
 	white-space: nowrap;
+	text-align: left;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }

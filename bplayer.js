@@ -85,6 +85,13 @@
 			this.src = function(src) {
 				if (src) {
 					songAudio.src = src;
+					if (!songAudio.autoplay) {
+						_this.pause();
+					}
+					current.textContent = "00:00";
+					total.textContent = "00:00";
+					played.style.width = 0;
+					loaded.style.width = 0;
 					return _this;
 				} else {
 					return songAudio.src;
@@ -169,7 +176,9 @@
 				}
 			}
 			this.play = function() {
-				songAudio.play();
+				if (this.src() != "" && this.src() != null) {
+					songAudio.play();
+				}
 				return _this;
 			}
 			this.pause = function() {
