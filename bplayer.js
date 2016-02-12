@@ -33,6 +33,15 @@
 		return this.className;
 	}
 
+	// Responsive
+	function response() {
+		if (this.clientWidth <= 460) {
+			addClass.call(this, "narrow_bplayer");
+		} else {
+			removeClass.call(this, "narrow_bplayer");
+		}
+	}
+
 	// Attach and append element
 	function attach(element) {
 		var _this = this;
@@ -172,12 +181,16 @@
 			}
 			this.init = function() {
 				this.element.appendChild(bpElement);
+				response.call(bpElement);
 				this.element.onselectstart = function() {
 					return false;
 				}
 				return _this;
 			}
 
+			window.addEventListener("resize", function() {
+				response.call(bpElement);
+			});
 			progressCtl.onclick = function(e) {
 				var w = this.clientWidth;
 				var x = e.offsetX;

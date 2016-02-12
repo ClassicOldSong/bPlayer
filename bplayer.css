@@ -229,17 +229,15 @@
 	display: none;
 }
 
-@media screen and (max-width: 460px) {
-	.buttons_bplayer {
-		top: 35px;
-	}
-	.time_bplayer {
-		top: 35px;
-	}
+.narrow_bplayer .buttons_bplayer {
+	top: 35px;
+}
+.narrow_bplayer .time_bplayer {
+	top: 35px;
+}
 
-	.titlewrap_bplayer {
-		padding-right: 0;
-		line-height: 40px;
-		font-size: 16px;
-	}
+.narrow_bplayer .titlewrap_bplayer {
+	padding-right: 0;
+	line-height: 40px;
+	font-size: 16px;
 }
