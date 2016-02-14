@@ -88,8 +88,8 @@
 					if (!songAudio.autoplay) {
 						_this.pause();
 					}
-					current.textContent = "00:00";
-					total.textContent = "00:00";
+					current.textContent = "0:00";
+					total.textContent = "0:00";
 					played.style.width = 0;
 					loaded.style.width = 0;
 					return _this;
