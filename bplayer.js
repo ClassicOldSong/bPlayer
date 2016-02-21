@@ -17,7 +17,6 @@
 		return formatted.getMinutes() + ":" + seconds;
 	}
 
-
 	// Modify classes
 	function addClass(className) {
 		var currentClass = this.className;
