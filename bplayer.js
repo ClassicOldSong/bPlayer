@@ -5,7 +5,7 @@
 	}
 
 	// Set bPlayer element
-	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
+	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
 
 	// Convert seconds to minutes
 	function formatTime(time) {
@@ -19,16 +19,21 @@
 
 	// Modify classes
 	function addClass(className) {
-		var currentClass = this.className;
-		if (currentClass.match(className) == null) {
-			this.className = currentClass + " " + className;
+		var classArr = this.className.split(" ");
+		if (classArr.indexOf(className) === -1) {
+			classArr.push(className);
 		}
+		this.className = classArr.join(" ");
 		return this.className;
 	}
 
 	function removeClass(className) {
-		var currentClass = this.className;
-		this.className = currentClass.replace(className, "").trim();
+		var classArr = this.className.split(" ");
+		var classIndex = classArr.indexOf(className);
+		if (classIndex > -1) {
+			classArr.splice(classIndex, 1);
+		}
+		this.className = classArr.join(" ");
 		return this.className;
 	}
 
