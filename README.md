@@ -21,7 +21,7 @@ bPlayer - 比原生播放器好一点点的播放器
 <script src="bplayer.js"></script>
 <script>
 	window.onload = function(){
-		var bplayer = new bPlayer;
+		var bplayer = new bPlayer();
 		bplayer.attach("#bp1").color("/*进度条颜色*/").src("/*歌曲链接*/").title("/*歌曲名称*/").artist("/*艺术家*/").cover("/*专辑封面链接*/").init();
 	}
 </script>

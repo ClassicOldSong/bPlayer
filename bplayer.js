@@ -1,8 +1,10 @@
+"use strict";
+
 (function() {
-	"use strict";
+	/*jshint validthis:true */
 	var bPlayer = function() {
 		return ('bPlayer - Ver 0.1.0 \n Please use "new" to create a bPlayer element.');
-	}
+	};
 
 	// Set bPlayer element
 	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
@@ -78,7 +80,7 @@
 			if (typeof element === "string") {
 				this.element = document.querySelector(this.element);
 			}
-			if (!(this.element && (this.element.nodeType != null))) {
+			if (!(this.element && (this.element.nodeType !== null))) {
 				throw new Error("Invalid element.");
 			}
 			if (this.element.bPlayer) {
@@ -100,7 +102,7 @@
 				} else {
 					return songAudio.src;
 				}
-			}
+			};
 			this.cover = function(url) {
 				if (url) {
 					songCover.style.backgroundImage = "url(\"" + url + "\")";
@@ -108,7 +110,7 @@
 				} else {
 					return songCover.style.backgroundImage;
 				}
-			}
+			};
 			this.title = function(text) {
 				if (text) {
 					songTitle.textContent = text;
@@ -116,7 +118,7 @@
 				} else {
 					return songTitle.textContent;
 				}
-			}
+			};
 			this.artist = function(text) {
 				if (text) {
 					songArtists.textContent = text;
@@ -124,7 +126,7 @@
 				} else {
 					return songArtists.textContent;
 				}
-			}
+			};
 			this.color = function(color) {
 				if (color) {
 					played.style.backgroundColor = color;
@@ -133,7 +135,7 @@
 				} else {
 					return played.style.backgroundColor;
 				}
-			}
+			};
 			this.volume = function(volume) {
 				if (volume) {
 					songAudio.volume = volume;
@@ -141,7 +143,7 @@
 				} else {
 					return songAudio.volume;
 				}
-			}
+			};
 			this.muted = function(mute) {
 				if (mute === false) {
 					songAudio.muted = mute;
@@ -154,7 +156,7 @@
 				} else {
 					return songAudio.muted;
 				}
-			}
+			};
 			this.loop = function(loop) {
 				if (loop === false) {
 					songAudio.loop = loop;
@@ -167,7 +169,7 @@
 				} else {
 					return songAudio.loop;
 				}
-			}
+			};
 			this.autoplay = function(autoplay) {
 				if (autoplay === false) {
 					songAudio.autoplay = autoplay;
@@ -178,28 +180,28 @@
 				} else {
 					return songAudio.autoplay;
 				}
-			}
+			};
 			this.play = function() {
-				if (this.src() != "" && this.src() != null) {
+				if (this.src() !== "" && this.src() !== null) {
 					songAudio.play();
 				}
 				return _this;
-			}
+			};
 			this.pause = function() {
 				songAudio.pause();
 				removeClass.call(playBtn, 'hidden_bplayer');
 				addClass.call(pauseBtn, 'hidden_bplayer');
 				playing = false;
 				return _this;
-			}
+			};
 			this.init = function() {
 				this.element.appendChild(bpElement);
 				response.call(bpElement);
 				this.element.onselectstart = function() {
 					return false;
-				}
+				};
 				return _this;
-			}
+			};
 
 			window.addEventListener("resize", function() {
 				response.call(bpElement);
@@ -210,16 +212,16 @@
 				try {
 					songAudio.currentTime = x / w * songAudio.duration;
 				} catch (err) {}
-			}
+			};
 			progressCtl.onmousedown = function() {
 				progressdown = true;
-			}
+			};
 			progressCtl.onmouseup = function() {
 				progressdown = false;
-			}
+			};
 			progressCtl.onmouseout = function() {
 				progressdown = false;
-			}
+			};
 			progressCtl.onmousemove = function(e) {
 				if (progressdown) {
 					var w = this.clientWidth;
@@ -228,22 +230,22 @@
 						songAudio.currentTime = x / w * songAudio.duration;
 					} catch (err) {}
 				}
-			}
+			};
 			volumeCtl.onclick = function(e) {
 				var x = e.offsetX + 1;
 				if (x >= 0) {
 					songAudio.volume = x / 80;
 				}
-			}
+			};
 			volumeCtl.onmousedown = function() {
 				volumedown = true;
-			}
+			};
 			volumeCtl.onmouseup = function() {
 				volumedown = false;
-			}
+			};
 			volumeCtl.onmouseout = function() {
 				volumedown = false;
-			}
+			};
 			volumeCtl.onmousemove = function(e) {
 				if (volumedown) {
 					var x = e.offsetX + 1;
@@ -251,53 +253,53 @@
 						songAudio.volume = x / 80;
 					} catch (err) {}
 				}
-			}
+			};
 			volumeBtn.onclick = function() {
 				if (_this.muted()) {
 					_this.muted(false);
 				} else {
 					_this.muted(true);
 				}
-			}
+			};
 			playCtl.onclick = function() {
 				if (playing) {
 					_this.pause();
 				} else {
 					_this.play();
 				}
-			}
+			};
 			loopBtn.onclick = function() {
 				if (_this.loop()) {
 					_this.loop(false);
 				} else {
 					_this.loop(true);
 				}
-			}
+			};
 
 			songAudio.ontimeupdate = function() {
 				played.style.width = this.currentTime / this.duration * 100 + "%";
 				current.textContent = formatTime(this.currentTime);
-			}
+			};
 			songAudio.onprogress = function() {
 				try {
 					loaded.style.width = this.buffered.end(this.length - 1) / this.duration * 100 + "%";
 					total.textContent = formatTime(this.duration);
-				} catch (err) {};
-			}
+				} catch (err) {}
+			};
 			songAudio.onvolumechange = function() {
 				volumeVal.style.width = this.volume * 80 + "px";
-			}
+			};
 			songAudio.onplay = function() {
 				addClass.call(playBtn, 'hidden_bplayer');
 				removeClass.call(pauseBtn, 'hidden_bplayer');
 				total.textContent = formatTime(this.duration);
 				playing = true;
-			}
+			};
 			songAudio.onended = function() {
 				if (!_this.loop()) {
 					_this.pause();
 				}
-			}
+			};
 
 			return _this;
 		}
@@ -306,4 +308,4 @@
 	window.bPlayer = bPlayer;
 	bPlayer.prototype.attach = attach;
 
-}).call(this);
+})();
