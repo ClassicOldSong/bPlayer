@@ -88,6 +88,13 @@
 			}
 			this.element.bPlayer = true;
 
+			this.slim = function(slim) {
+				if (slim) {
+					addClass.call(bpElement, 'slim_bPlayer');
+				} else {
+					removeClass.call(bpElement, 'slim_bPlayer');
+				}
+			};
 			this.src = function(src) {
 				if (src) {
 					songAudio.src = src;
