@@ -7,6 +7,10 @@
 	url('fonts/bPlayer_font.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
+bplayer {
+	display: block;
+}
+
 .iconfont_bplayer {
 	font-family:"iconfont_bplayer";
 	font-style:normal;

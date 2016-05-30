@@ -3,7 +3,7 @@
 (function() {
 	/*jshint validthis:true */
 	var bPlayer = function() {
-		return ('bPlayer - Ver 0.1.0 \n Please use "new" to create a bPlayer element.');
+		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
 	};
 
 	// Set bPlayer element
@@ -17,13 +17,13 @@
 			seconds = "0" + seconds;
 		}
 		return formatted.getMinutes() + ":" + seconds;
-	}
+	};
 
 	// Replacement
 	var replaceWith = function(node1, node2) {
 		var parent = node1.parentNode;
 		parent.replaceChild(node2, node1);
-	}
+	};
 
 	// Responsive
 	var response = function() {
@@ -32,7 +32,7 @@
 		} else {
 			this.classList.remove("narrow_bplayer");
 		}
-	}
+	};
 
 	// Attach and append element
 	var attach = function(element, audio) {
@@ -42,7 +42,8 @@
 				volumedown: false,
 				progressdown: false,
 				playing: false,
-				slim: false
+				slim: false,
+				cover: ''
 			};
 			var bpElement = document.createElement('div');
 			bpElement.className = 'bPlayer';
@@ -113,9 +114,10 @@
 			this.cover = function(url) {
 				if (url) {
 					songCover.style.backgroundImage = "url(\"" + url + "\")";
+					status.cover = url;
 					return _this;
 				} else {
-					return songCover.style.backgroundImage;
+					return status.cover;
 				}
 			};
 			this.title = function(text) {
@@ -401,7 +403,7 @@
 
 			return _this;
 		}
-	}
+	};
 
 	bPlayer.prototype.attach = attach;
 	window.bPlayer = bPlayer;
@@ -410,33 +412,54 @@
 		document.removeEventListener('DOMContentLoaded', scan, false);
 		var audios = document.querySelectorAll('audio');
 		for (var i = 0; i < audios.length; i++) {
-			var title = '', artist = '', cover = ' ', color = '#F00', slim = false;
-			if (audios[i].hasAttribute('title')) {
-				title = audios[i].attributes['title'].value;
-			}
-			if (audios[i].hasAttribute('artist')) {
-				artist = audios[i].attributes['artist'].value;
-			}
-			if (audios[i].hasAttribute('cover')) {
-				cover = audios[i].attributes['cover'].value;
-			}
-			if (audios[i].hasAttribute('color')) {
-				color = audios[i].attributes['color'].value;
-			}
-			if (audios[i].hasAttribute('slim')) {
-				if (audios[i].attributes['slim'].value !== 'false') {
-					slim = true;
+			if (audios[i].hasAttribute('controls')) {
+				var title = '', artist = '', cover = ' ', color = '#F00', slim = false, autoplay = false, loop = false;
+				if (audios[i].hasAttribute('title')) {
+					title = audios[i].getAttribute('title');
+				}
+				if (audios[i].hasAttribute('artist')) {
+					artist = audios[i].getAttribute('artist');
+				}
+				if (audios[i].hasAttribute('cover')) {
+					cover = audios[i].getAttribute('cover');
+				}
+				if (audios[i].hasAttribute('color')) {
+					color = audios[i].getAttribute('color');
+				}
+				if (audios[i].hasAttribute('slim')) {
+					if (audios[i].getAttribute('slim') !== 'false') {
+						slim = true;
+					}
+				}
+				if (audios[i].hasAttribute('autoplay')) {
+					if (audios[i].getAttribute('autoplay') !== 'false') {
+						autoplay = true;
+					}
+				}
+				if (audios[i].hasAttribute('loop')) {
+					if (audios[i].getAttribute('loop') !== 'false') {
+						loop = true;
+					}
+				}
+				var newDiv = document.createElement('bplayer');
+				if (audios[i].hasAttribute('id')) {
+					newDiv.id = audios[i].id;
+				}
+				if (audios[i].hasAttribute('class')) {
+					newDiv.className = audios[i].className;
+				}
+				if (audios[i].hasAttribute('style')) {
+					newDiv.setAttribute('style',audios[i].getAttribute('style'));
+				}
+				replaceWith(audios[i], newDiv);
+				var newbP = new bPlayer();
+				newbP.attach(newDiv, audios[i]).autoplay(autoplay).loop(loop).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
+				if (autoplay) {
+					newbP.play();
 				}
 			}
-			var newDiv = document.createElement('div');
-			if (audios[i].hasAttribute('id')) {
-				newDiv.id = audios[i].id;
-			}
-			replaceWith(audios[i], newDiv);
-			var newbP = new bPlayer();
-			newbP.attach(newDiv, audios[i]).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
 		}
-	}
+	};
 
 	document.addEventListener('DOMContentLoaded', scan, false);
 	if (document.readyState === "interactive" || document.readyState === "complete") {
