@@ -209,6 +209,9 @@
 				};
 				return _this;
 			};
+			this.playing = function() {
+				return status.playing;
+			};
 
 			Object.defineProperties(this.element, {
 				slim: {
