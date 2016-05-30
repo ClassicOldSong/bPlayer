@@ -15,7 +15,7 @@
 			var bp3 = new bPlayer();
 			bp1.attach("#bp1").color("#66ccff").autoplay(false).src("http://m2.music.126.net/6wFgmjNVtAKKGuCtThjvWA==/1984618488140540.mp3").title("WolfRed").artist("Jelonek").cover("http://p1.music.126.net/2Ud6-aBR505cdusUwCkTKQ==/815837627851851.jpg?param=60x60").init();
 			bp2.attach("#bp2").color("#CC3366").src("http://m2.music.126.net/Ne2y18_WUIHdGaXjjZSKwA==/7857110092450532.mp3").title("Vibrance").artist("Wisp X").cover("http://p1.music.126.net/jg2j75C9gk9Hs79zHtEbtQ==/7731765766799148.jpg?param=60x60").init();
-			bp3.attach("#bp3").color("#00B999").src("http://m2.music.126.net/5U19JiKhhy6aDvrdg0nQvw==/1189671581253705.mp3").title("The Awakening").artist("Arkasia").cover("http://p1.music.126.net/rzGgj69MVp2np9ckRE5G4A==/712483534805961.jpg?param=60x60").init();
+			bp3.attach("#bp3").color("#00B999").src("http://m2.music.126.net/5U19JiKhhy6aDvrdg0nQvw==/1189671581253705.mp3").title("The Awakening").artist("Arkasia").cover("http://p1.music.126.net/rzGgj69MVp2np9ckRE5G4A==/712483534805961.jpg?param=60x60").slim(true).init();
 			window.bp1 = bp1;
 			window.bp2 = bp2;
 			window.bp3 = bp3;
@@ -64,44 +64,10 @@
 		<h1>bPlayer - 比原生播放器好一点点</h1>
 		<div id="bp1" class="test"><h3>#bp1</h3></div>
 		<div id="bp2" class="test"><h3>#bp2</h3></div>
-		<div id="bp3" class="test"><h3>#bp3</h3></div>
-		<div class="bPlayer slim_bPlayer" id="slimTest">
-			<div class="info_bplayer">
-				<div class="titlewrap_bplayer">
-					<span class="title_bplayer">WolfRed</span><span class="author_bplayer">Jelonek</span>
-				</div>
-				<div class="time_bplayer">
-					<span class="current_bplayer">0:16</span><span class="total_bplayer">3:47</span>
-				</div>
-				<div class="buttons_bplayer">
-					<div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer">
-						<i class="iconfont_bplayer"></i>
-					</div>
-					<div class="volume_bplayer">
-						<div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer">
-							<i class="iconfont_bplayer"></i>
-						</div>
-						<div class="volumebar_bplayer">
-							<div class="volumebg_bplayer"></div>
-							<div class="volumeval_bplayer" style="background-color: rgb(102, 204, 255);"></div><div class="volumectl_bplayer"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="cover_bplayer">
-				<div class="coverimg_bplayer" style="background-image: url('http://p1.music.126.net/2Ud6-aBR505cdusUwCkTKQ==/815837627851851.jpg?param=60x60');"></div>
-				<div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer">
-					<i class="iconfont_bplayer"></i>
-				</div>
-				<div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer">
-					<i class="iconfont_bplayer"></i>
-				</div>
-			</div>
-			<div class="progress_bplayer">
-				<div class="loaded_bplayer" style="width: 72.8759%;"></div>
-				<div class="played_bplayer" style="width: 7.37867%; background-color: rgb(102, 204, 255);"></div>
-				<div class="progressctl_bplayer"></div>
-			</div>
+		<div id="bp3" class="test"><h3>#bp3 with slim mode</h3></div>
+		<div class="test">
+			<h3>Converted from Audio element</h3>
+			<audio title="Test" artist="hahaha" slim="false" color="#66CCFF" cover="http://p1.music.126.net/jg2j75C9gk9Hs79zHtEbtQ==/7731765766799148.jpg?param=60x60" src="http://m2.music.126.net/5U19JiKhhy6aDvrdg0nQvw==/1189671581253705.mp3"></audio>
 		</div>
 		<hr />
 		<p>可以尝试打开控制台对 bp1, bp2, bp3 进行控制，例如：<code>bp1.color("#FF2870");</code></p>

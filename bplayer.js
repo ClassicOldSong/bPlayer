@@ -10,7 +10,7 @@
 	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
 
 	// Convert seconds to minutes
-	function formatTime(time) {
+	var formatTime = function(time) {
 		var formatted = new Date(time * 1000);
 		var seconds = formatted.getSeconds();
 		if (seconds < 10) {
@@ -19,37 +19,23 @@
 		return formatted.getMinutes() + ":" + seconds;
 	}
 
-	// Modify classes
-	function addClass(className) {
-		var classArr = this.className.split(" ");
-		if (classArr.indexOf(className) === -1) {
-			classArr.push(className);
-		}
-		this.className = classArr.join(" ");
-		return this.className;
-	}
-
-	function removeClass(className) {
-		var classArr = this.className.split(" ");
-		var classIndex = classArr.indexOf(className);
-		if (classIndex > -1) {
-			classArr.splice(classIndex, 1);
-		}
-		this.className = classArr.join(" ");
-		return this.className;
+	// Replacement
+	var replaceWith = function(node1, node2) {
+		var parent = node1.parentNode;
+		parent.replaceChild(node2, node1);
 	}
 
 	// Responsive
-	function response() {
+	var response = function() {
 		if (this.clientWidth <= 460) {
-			addClass.call(this, "narrow_bplayer");
+			this.classList.add("narrow_bplayer");
 		} else {
-			removeClass.call(this, "narrow_bplayer");
+			this.classList.remove("narrow_bplayer");
 		}
 	}
 
 	// Attach and append element
-	function attach(element) {
+	var attach = function(element, audio) {
 		var _this = this;
 		if (element) {
 			var volumedown = false;
@@ -59,7 +45,12 @@
 			bpElement.className = 'bPlayer';
 			bpElement.innerHTML = contentHTML;
 
-			var songAudio = document.createElement('audio');
+			var songAudio;
+			if (audio) {
+				songAudio = audio;
+			} else {
+				songAudio = document.createElement('audio');
+			}
 			var songCover = bpElement.querySelector(".coverimg_bplayer");
 			var progressCtl = bpElement.querySelector(".progressctl_bplayer");
 			var volumeCtl = bpElement.querySelector(".volumectl_bplayer");
@@ -90,10 +81,11 @@
 
 			this.slim = function(slim) {
 				if (slim) {
-					addClass.call(bpElement, 'slim_bPlayer');
+					bpElement.classList.add('slim_bPlayer');
 				} else {
-					removeClass.call(bpElement, 'slim_bPlayer');
+					bpElement.classList.remove('im_bPlayer');
 				}
+				return _this;
 			};
 			this.src = function(src) {
 				if (src) {
@@ -154,11 +146,11 @@
 			this.muted = function(mute) {
 				if (mute === false) {
 					songAudio.muted = mute;
-					removeClass.call(volumeBtn, 'disabled_bplayer');
+					volumeBtn.classList.remove('disabled_bplayer');
 					return _this;
 				} else if (mute === true) {
 					songAudio.muted = mute;
-					addClass.call(volumeBtn, 'disabled_bplayer');
+					volumeBtn.classList.add('disabled_bplayer');
 					return _this;
 				} else {
 					return songAudio.muted;
@@ -167,11 +159,11 @@
 			this.loop = function(loop) {
 				if (loop === false) {
 					songAudio.loop = loop;
-					addClass.call(loopBtn, 'disabled_bplayer');
+					loopBtn.classList.add('disabled_bplayer');
 					return _this;
 				} else if (loop === true) {
 					songAudio.loop = loop;
-					removeClass.call(loopBtn, 'disabled_bplayer');
+					loopBtn.classList.remove('disabled_bplayer');
 					return _this;
 				} else {
 					return songAudio.loop;
@@ -196,8 +188,8 @@
 			};
 			this.pause = function() {
 				songAudio.pause();
-				removeClass.call(playBtn, 'hidden_bplayer');
-				addClass.call(pauseBtn, 'hidden_bplayer');
+				playBtn.classList.remove('hidden_bplayer');
+				pauseBtn.classList.add('hidden_bplayer');
 				playing = false;
 				return _this;
 			};
@@ -297,8 +289,8 @@
 				volumeVal.style.width = this.volume * 80 + "px";
 			};
 			songAudio.onplay = function() {
-				addClass.call(playBtn, 'hidden_bplayer');
-				removeClass.call(pauseBtn, 'hidden_bplayer');
+				playBtn.classList.add('hidden_bplayer');
+				pauseBtn.classList.remove('hidden_bplayer');
 				total.textContent = formatTime(this.duration);
 				playing = true;
 			};
@@ -312,7 +304,40 @@
 		}
 	}
 
-	window.bPlayer = bPlayer;
 	bPlayer.prototype.attach = attach;
+	window.bPlayer = bPlayer;
 
+	var scan = function() {
+		document.removeEventListener('DOMContentLoaded', scan, false);
+		var audios = document.querySelectorAll('audio');
+		for (var i = 0; i < audios.length; i++) {
+			var title = '', artist = '', cover = ' ', color = '#F00', slim = false;
+			if (audios[i].hasAttribute('title')) {
+				title = audios[i].attributes['title'].value;
+			}
+			if (audios[i].hasAttribute('artist')) {
+				artist = audios[i].attributes['artist'].value;
+			}
+			if (audios[i].hasAttribute('cover')) {
+				cover = audios[i].attributes['cover'].value;
+			}
+			if (audios[i].hasAttribute('color')) {
+				color = audios[i].attributes['color'].value;
+			}
+			if (audios[i].hasAttribute('slim')) {
+				if (audios[i].attributes['slim'].value !== 'false') {
+					slim = true;
+				}
+			}
+			var newDiv = document.createElement('div');
+			replaceWith(audios[i], newDiv);
+			var newbP = new bPlayer();
+			newbP.attach(newDiv, audios[i]).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', scan, false);
+	if (document.readyState === "interactive" || document.readyState === "complete") {
+		scan();
+	}
 })();
