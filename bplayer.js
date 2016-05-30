@@ -330,6 +330,9 @@
 				}
 			}
 			var newDiv = document.createElement('div');
+			if (audios[i].hasAttribute('id')) {
+				newDiv.id = audios[i].id;
+			}
 			replaceWith(audios[i], newDiv);
 			var newbP = new bPlayer();
 			newbP.attach(newDiv, audios[i]).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
