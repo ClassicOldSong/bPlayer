@@ -32,7 +32,7 @@ bPlayer - 比原生播放器好一点点的播放器
 ...
 
 <div id="bp1"></div>
-<audio src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" aotuplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls></audio>
+<audio src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" aotoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls></audio>
 ~~~
 
 *注意：引入bPlayer后，会自动在DOM结构加载完成以后扫描页面内的所有audio节点，并将含有controls属性的audio节点转换为bplayer节点。原audio节点的id,class以及style保留。*
