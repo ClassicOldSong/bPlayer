@@ -38,9 +38,12 @@
 	var attach = function(element, audio) {
 		var _this = this;
 		if (element) {
-			var volumedown = false;
-			var progressdown = false;
-			var playing = false;
+			var status = {
+				volumedown: false,
+				progressdown: false,
+				playing: false,
+				slim: false
+			};
 			var bpElement = document.createElement('div');
 			bpElement.className = 'bPlayer';
 			bpElement.innerHTML = contentHTML;
@@ -80,12 +83,17 @@
 			this.element.bPlayer = true;
 
 			this.slim = function(slim) {
-				if (slim) {
+				if (slim === true) {
 					bpElement.classList.add('slim_bPlayer');
+					status.slim = true;
+					return _this;
+				} else if (slim === false) {
+					bpElement.classList.remove('slim_bPlayer');
+					status.slim = false;
+					return _this;
 				} else {
-					bpElement.classList.remove('im_bPlayer');
+					return status.slim;
 				}
-				return _this;
 			};
 			this.src = function(src) {
 				if (src) {
@@ -190,7 +198,7 @@
 				songAudio.pause();
 				playBtn.classList.remove('hidden_bplayer');
 				pauseBtn.classList.add('hidden_bplayer');
-				playing = false;
+				status.playing = false;
 				return _this;
 			};
 			this.init = function() {
@@ -201,6 +209,94 @@
 				};
 				return _this;
 			};
+
+			Object.defineProperties(this.element, {
+				slim: {
+					get: function() {
+						return _this.slim();
+					},
+					set: function(slim) {
+						_this.slim(slim);
+					}
+				},
+				src: {
+					get: function() {
+						return _this.src();
+					},
+					set: function(src) {
+						_this.src(src);
+					}
+				},
+				cover: {
+					get: function() {
+						return _this.cover();
+					},
+					set: function(cover) {
+						_this.cover(cover);
+					}
+				},
+				title: {
+					get: function() {
+						return _this.title();
+					},
+					set: function(title) {
+						_this.title(title);
+					}
+				},
+				artist: {
+					get: function() {
+						return _this.artist();
+					},
+					set: function(artist) {
+						_this.artist(artist);
+					}
+				},
+				color: {
+					get: function() {
+						return _this.color();
+					},
+					set: function(color) {
+						_this.color(color);
+					}
+				},
+				volume: {
+					get: function() {
+						return _this.volume();
+					},
+					set: function(volume) {
+						_this.volume(volume);
+					}
+				},
+				muted: {
+					get: function() {
+						return _this.muted();
+					},
+					set: function(muted) {
+						_this.muted(muted);
+					}
+				},
+				loop: {
+					get: function() {
+						return _this.loop();
+					},
+					set: function(loop) {
+						_this.loop(loop);
+					}
+				},
+				autoplay: {
+					get: function() {
+						return _this.autoplay();
+					},
+					set: function(autoplay) {
+						_this.autoplay(autoplay);
+					}
+				},
+				playing: {
+					get: function() {
+						return status.playing;
+					}
+				}
+			});
 
 			window.addEventListener("resize", function() {
 				response.call(bpElement);
@@ -213,16 +309,16 @@
 				} catch (err) {}
 			};
 			progressCtl.onmousedown = function() {
-				progressdown = true;
+				status.progressdown = true;
 			};
 			progressCtl.onmouseup = function() {
-				progressdown = false;
+				status.progressdown = false;
 			};
 			progressCtl.onmouseout = function() {
-				progressdown = false;
+				status.progressdown = false;
 			};
 			progressCtl.onmousemove = function(e) {
-				if (progressdown) {
+				if (status.progressdown) {
 					var w = this.clientWidth;
 					var x = e.offsetX;
 					try {
@@ -237,16 +333,16 @@
 				}
 			};
 			volumeCtl.onmousedown = function() {
-				volumedown = true;
+				status.volumedown = true;
 			};
 			volumeCtl.onmouseup = function() {
-				volumedown = false;
+				status.volumedown = false;
 			};
 			volumeCtl.onmouseout = function() {
-				volumedown = false;
+				status.volumedown = false;
 			};
 			volumeCtl.onmousemove = function(e) {
-				if (volumedown) {
+				if (status.volumedown) {
 					var x = e.offsetX + 1;
 					try {
 						songAudio.volume = x / 80;
@@ -261,7 +357,7 @@
 				}
 			};
 			playCtl.onclick = function() {
-				if (playing) {
+				if (status.playing) {
 					_this.pause();
 				} else {
 					_this.play();
@@ -292,7 +388,7 @@
 				playBtn.classList.add('hidden_bplayer');
 				pauseBtn.classList.remove('hidden_bplayer');
 				total.textContent = formatTime(this.duration);
-				playing = true;
+				status.playing = true;
 			};
 			songAudio.onended = function() {
 				if (!_this.loop()) {
