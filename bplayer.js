@@ -3,63 +3,58 @@
 (function() {
 	/*jshint validthis:true */
 	var bPlayer = function() {
-		return ('bPlayer - Ver 0.1.0 \n Please use "new" to create a bPlayer element.');
+		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
 	};
 
 	// Set bPlayer element
 	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
 
 	// Convert seconds to minutes
-	function formatTime(time) {
+	var formatTime = function(time) {
 		var formatted = new Date(time * 1000);
 		var seconds = formatted.getSeconds();
 		if (seconds < 10) {
 			seconds = "0" + seconds;
 		}
 		return formatted.getMinutes() + ":" + seconds;
-	}
+	};
 
-	// Modify classes
-	function addClass(className) {
-		var classArr = this.className.split(" ");
-		if (classArr.indexOf(className) === -1) {
-			classArr.push(className);
-		}
-		this.className = classArr.join(" ");
-		return this.className;
-	}
-
-	function removeClass(className) {
-		var classArr = this.className.split(" ");
-		var classIndex = classArr.indexOf(className);
-		if (classIndex > -1) {
-			classArr.splice(classIndex, 1);
-		}
-		this.className = classArr.join(" ");
-		return this.className;
-	}
+	// Replacement
+	var replaceWith = function(node1, node2) {
+		var parent = node1.parentNode;
+		parent.replaceChild(node2, node1);
+	};
 
 	// Responsive
-	function response() {
+	var response = function() {
 		if (this.clientWidth <= 460) {
-			addClass.call(this, "narrow_bplayer");
+			this.classList.add("narrow_bplayer");
 		} else {
-			removeClass.call(this, "narrow_bplayer");
+			this.classList.remove("narrow_bplayer");
 		}
-	}
+	};
 
 	// Attach and append element
-	function attach(element) {
+	var attach = function(element, audio) {
 		var _this = this;
 		if (element) {
-			var volumedown = false;
-			var progressdown = false;
-			var playing = false;
+			var status = {
+				volumedown: false,
+				progressdown: false,
+				playing: false,
+				slim: false,
+				cover: ''
+			};
 			var bpElement = document.createElement('div');
 			bpElement.className = 'bPlayer';
 			bpElement.innerHTML = contentHTML;
 
-			var songAudio = document.createElement('audio');
+			var songAudio;
+			if (audio) {
+				songAudio = audio;
+			} else {
+				songAudio = document.createElement('audio');
+			}
 			var songCover = bpElement.querySelector(".coverimg_bplayer");
 			var progressCtl = bpElement.querySelector(".progressctl_bplayer");
 			var volumeCtl = bpElement.querySelector(".volumectl_bplayer");
@@ -88,6 +83,19 @@
 			}
 			this.element.bPlayer = true;
 
+			this.slim = function(slim) {
+				if (slim === true) {
+					bpElement.classList.add('slim_bPlayer');
+					status.slim = true;
+					return _this;
+				} else if (slim === false) {
+					bpElement.classList.remove('slim_bPlayer');
+					status.slim = false;
+					return _this;
+				} else {
+					return status.slim;
+				}
+			};
 			this.src = function(src) {
 				if (src) {
 					songAudio.src = src;
@@ -106,9 +114,10 @@
 			this.cover = function(url) {
 				if (url) {
 					songCover.style.backgroundImage = "url(\"" + url + "\")";
+					status.cover = url;
 					return _this;
 				} else {
-					return songCover.style.backgroundImage;
+					return status.cover;
 				}
 			};
 			this.title = function(text) {
@@ -147,11 +156,11 @@
 			this.muted = function(mute) {
 				if (mute === false) {
 					songAudio.muted = mute;
-					removeClass.call(volumeBtn, 'disabled_bplayer');
+					volumeBtn.classList.remove('disabled_bplayer');
 					return _this;
 				} else if (mute === true) {
 					songAudio.muted = mute;
-					addClass.call(volumeBtn, 'disabled_bplayer');
+					volumeBtn.classList.add('disabled_bplayer');
 					return _this;
 				} else {
 					return songAudio.muted;
@@ -160,11 +169,11 @@
 			this.loop = function(loop) {
 				if (loop === false) {
 					songAudio.loop = loop;
-					addClass.call(loopBtn, 'disabled_bplayer');
+					loopBtn.classList.add('disabled_bplayer');
 					return _this;
 				} else if (loop === true) {
 					songAudio.loop = loop;
-					removeClass.call(loopBtn, 'disabled_bplayer');
+					loopBtn.classList.remove('disabled_bplayer');
 					return _this;
 				} else {
 					return songAudio.loop;
@@ -189,9 +198,9 @@
 			};
 			this.pause = function() {
 				songAudio.pause();
-				removeClass.call(playBtn, 'hidden_bplayer');
-				addClass.call(pauseBtn, 'hidden_bplayer');
-				playing = false;
+				playBtn.classList.remove('hidden_bplayer');
+				pauseBtn.classList.add('hidden_bplayer');
+				status.playing = false;
 				return _this;
 			};
 			this.init = function() {
@@ -202,6 +211,97 @@
 				};
 				return _this;
 			};
+			this.playing = function() {
+				return status.playing;
+			};
+
+			Object.defineProperties(this.element, {
+				slim: {
+					get: function() {
+						return _this.slim();
+					},
+					set: function(slim) {
+						_this.slim(slim);
+					}
+				},
+				src: {
+					get: function() {
+						return _this.src();
+					},
+					set: function(src) {
+						_this.src(src);
+					}
+				},
+				cover: {
+					get: function() {
+						return _this.cover();
+					},
+					set: function(cover) {
+						_this.cover(cover);
+					}
+				},
+				title: {
+					get: function() {
+						return _this.title();
+					},
+					set: function(title) {
+						_this.title(title);
+					}
+				},
+				artist: {
+					get: function() {
+						return _this.artist();
+					},
+					set: function(artist) {
+						_this.artist(artist);
+					}
+				},
+				color: {
+					get: function() {
+						return _this.color();
+					},
+					set: function(color) {
+						_this.color(color);
+					}
+				},
+				volume: {
+					get: function() {
+						return _this.volume();
+					},
+					set: function(volume) {
+						_this.volume(volume);
+					}
+				},
+				muted: {
+					get: function() {
+						return _this.muted();
+					},
+					set: function(muted) {
+						_this.muted(muted);
+					}
+				},
+				loop: {
+					get: function() {
+						return _this.loop();
+					},
+					set: function(loop) {
+						_this.loop(loop);
+					}
+				},
+				autoplay: {
+					get: function() {
+						return _this.autoplay();
+					},
+					set: function(autoplay) {
+						_this.autoplay(autoplay);
+					}
+				},
+				playing: {
+					get: function() {
+						return status.playing;
+					}
+				}
+			});
 
 			window.addEventListener("resize", function() {
 				response.call(bpElement);
@@ -214,16 +314,16 @@
 				} catch (err) {}
 			};
 			progressCtl.onmousedown = function() {
-				progressdown = true;
+				status.progressdown = true;
 			};
 			progressCtl.onmouseup = function() {
-				progressdown = false;
+				status.progressdown = false;
 			};
 			progressCtl.onmouseout = function() {
-				progressdown = false;
+				status.progressdown = false;
 			};
 			progressCtl.onmousemove = function(e) {
-				if (progressdown) {
+				if (status.progressdown) {
 					var w = this.clientWidth;
 					var x = e.offsetX;
 					try {
@@ -238,16 +338,16 @@
 				}
 			};
 			volumeCtl.onmousedown = function() {
-				volumedown = true;
+				status.volumedown = true;
 			};
 			volumeCtl.onmouseup = function() {
-				volumedown = false;
+				status.volumedown = false;
 			};
 			volumeCtl.onmouseout = function() {
-				volumedown = false;
+				status.volumedown = false;
 			};
 			volumeCtl.onmousemove = function(e) {
-				if (volumedown) {
+				if (status.volumedown) {
 					var x = e.offsetX + 1;
 					try {
 						songAudio.volume = x / 80;
@@ -262,7 +362,7 @@
 				}
 			};
 			playCtl.onclick = function() {
-				if (playing) {
+				if (status.playing) {
 					_this.pause();
 				} else {
 					_this.play();
@@ -290,10 +390,10 @@
 				volumeVal.style.width = this.volume * 80 + "px";
 			};
 			songAudio.onplay = function() {
-				addClass.call(playBtn, 'hidden_bplayer');
-				removeClass.call(pauseBtn, 'hidden_bplayer');
+				playBtn.classList.add('hidden_bplayer');
+				pauseBtn.classList.remove('hidden_bplayer');
 				total.textContent = formatTime(this.duration);
-				playing = true;
+				status.playing = true;
 			};
 			songAudio.onended = function() {
 				if (!_this.loop()) {
@@ -303,9 +403,66 @@
 
 			return _this;
 		}
-	}
+	};
 
-	window.bPlayer = bPlayer;
 	bPlayer.prototype.attach = attach;
+	window.bPlayer = bPlayer;
 
+	var scan = function() {
+		document.removeEventListener('DOMContentLoaded', scan, false);
+		var audios = document.querySelectorAll('audio');
+		for (var i = 0; i < audios.length; i++) {
+			if (audios[i].hasAttribute('controls')) {
+				var title = '', artist = '', cover = ' ', color = '#F00', slim = false, autoplay = false, loop = false;
+				if (audios[i].hasAttribute('title')) {
+					title = audios[i].getAttribute('title');
+				}
+				if (audios[i].hasAttribute('artist')) {
+					artist = audios[i].getAttribute('artist');
+				}
+				if (audios[i].hasAttribute('cover')) {
+					cover = audios[i].getAttribute('cover');
+				}
+				if (audios[i].hasAttribute('color')) {
+					color = audios[i].getAttribute('color');
+				}
+				if (audios[i].hasAttribute('slim')) {
+					if (audios[i].getAttribute('slim') !== 'false') {
+						slim = true;
+					}
+				}
+				if (audios[i].hasAttribute('autoplay')) {
+					if (audios[i].getAttribute('autoplay') !== 'false') {
+						autoplay = true;
+					}
+				}
+				if (audios[i].hasAttribute('loop')) {
+					if (audios[i].getAttribute('loop') !== 'false') {
+						loop = true;
+					}
+				}
+				var newDiv = document.createElement('bplayer');
+				if (audios[i].hasAttribute('id')) {
+					newDiv.id = audios[i].id;
+				}
+				if (audios[i].hasAttribute('class')) {
+					newDiv.className = audios[i].className;
+				}
+				if (audios[i].hasAttribute('style')) {
+					newDiv.setAttribute('style',audios[i].getAttribute('style'));
+				}
+				replaceWith(audios[i], newDiv);
+				var newbP = new bPlayer();
+				newbP.attach(newDiv, audios[i]).autoplay(autoplay).loop(loop).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
+				if (autoplay) {
+					newbP.play();
+				}
+			}
+		}
+	};
+
+	document.addEventListener('DOMContentLoaded', scan, false);
+	if (document.readyState === "interactive" || document.readyState === "complete") {
+		scan();
+	}
 })();

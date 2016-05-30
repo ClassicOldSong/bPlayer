@@ -7,6 +7,10 @@
 	url('fonts/bPlayer_font.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
+bplayer {
+	display: block;
+}
+
 .iconfont_bplayer {
 	font-family:"iconfont_bplayer";
 	font-style:normal;
@@ -94,9 +98,6 @@
 	text-align: left;
 	text-overflow: ellipsis;
 	overflow: hidden;
-}
-
-.title_bplayer {
 }
 
 .author_bplayer {
@@ -243,4 +244,72 @@
 	padding-right: 0;
 	line-height: 40px;
 	font-size: 16px;
+}
+
+
+/* Section for bPayer_slim */
+.bPlayer.slim_bPlayer {
+	height: 30px;
+}
+
+.slim_bPlayer .cover_bplayer {
+	height: 30px;
+	width: 30px;
+}
+.slim_bPlayer .cover_bplayer:before {
+	line-height: 30px;
+	font-size: 20px;
+}
+
+.slim_bPlayer .controlbtn_bplayer {
+	line-height: 30px;
+	font-size: 20px;
+}
+
+.slim_bPlayer .info_bplayer {
+	height: 30px;
+}
+
+.slim_bPlayer .titlewrap_bplayer {
+	padding-left: 38px;
+	padding-right: 140px;
+	line-height: 30px;
+	height: 30px;
+	font-size: 16px;
+}
+
+.slim_bPlayer .buttons_bplayer {
+	top: 0;
+	height: 30px;
+}
+.slim_bPlayer .btn_bplayer {
+	height: 30px;
+	line-height: 30px;
+}
+
+.slim_bPlayer .time_bplayer {
+	top: 0;
+	height: 30px;
+	line-height: 30px;
+}
+
+.slim_bPlayer .volume_bplayer {
+	height: 30px;
+	transition: width 500ms;
+}
+.slim_bPlayer .volume_bplayer:hover {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+	width: 105px;
+}
+.slim_bPlayer .volumebar_bplayer {
+	height: 30px;
+}
+.slim_bPlayer .volumebg_bplayer {
+	margin: 13px 0 13px 5px;
+}
+.slim_bPlayer .volumeval_bplayer {
+	margin: 13px 0 13px 5px;
+}
+.slim_bPlayer .volumectl_bplayer {
+	height: 30px;
 }
