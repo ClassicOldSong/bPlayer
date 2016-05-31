@@ -468,7 +468,7 @@
 		var audios = document.querySelectorAll('audio');
 		for (var i = 0; i < audios.length; i++) {
 			if (audios[i].hasAttribute('controls')) {
-				var title = '', artist = '', cover = ' ', color = '#F00', slim = false, autoplay = false, loop = false;
+				var title = '', artist = '', cover = '', color = '#F00', slim = false, autoplay = false, loop = false;
 				if (audios[i].hasAttribute('title')) {
 					title = audios[i].getAttribute('title');
 				}
