@@ -1,0 +1,26 @@
+{
+  "name": "bplayer",
+  "version": "0.2.0-alpha",
+  "description": "A great replacement for audio elements",
+  "main": "bplayer.js",
+  "scripts": {
+    "test": "browser-sync start --config bs-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClassicOldSong/bPlayer.git"
+  },
+  "keywords": [
+    "bPlayer",
+    "JavaScript",
+    "audio",
+    "player",
+    "replacement"
+  ],
+  "author": "ClasicOldSong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ClassicOldSong/bPlayer/issues"
+  },
+  "homepage": "https://github.com/ClassicOldSong/bPlayer#readme"
+}

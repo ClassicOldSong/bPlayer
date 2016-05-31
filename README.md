@@ -22,6 +22,10 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 	git clone https://github.com/classicoldsong/bPlayer.git
 
+或者
+
+	npm install bplayer
+
 ###配置及使用
 
 引入bplayer.js，丢个带controls的audio标签在页面里，然后就搞定了~或者手动绑定元素也可以的说
