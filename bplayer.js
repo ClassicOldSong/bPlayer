@@ -453,6 +453,8 @@
 				if (defaults.autoplay) {
 					this.play();
 				}
+			} else {
+				throw new Error('[bPlayer] \'element\' is not defined in configuration!');
 			}
 		}
 		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
