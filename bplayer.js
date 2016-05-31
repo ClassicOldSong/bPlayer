@@ -2,9 +2,6 @@
 
 (function() {
 	/*jshint validthis:true */
-	var bPlayer = function() {
-		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
-	};
 
 	// Set bPlayer element
 	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
@@ -45,16 +42,10 @@
 				slim: false,
 				cover: ''
 			};
-			var bpElement = document.createElement('div');
+			var bpElement = document.createElement('bplayer');
 			bpElement.className = 'bPlayer';
 			bpElement.innerHTML = contentHTML;
 
-			var songAudio;
-			if (audio) {
-				songAudio = audio;
-			} else {
-				songAudio = document.createElement('audio');
-			}
 			var songCover = bpElement.querySelector(".coverimg_bplayer");
 			var progressCtl = bpElement.querySelector(".progressctl_bplayer");
 			var volumeCtl = bpElement.querySelector(".volumectl_bplayer");
@@ -71,17 +62,23 @@
 			var playBtn = bpElement.querySelector("#playBtn_bplayer");
 			var pauseBtn = bpElement.querySelector("#pauseBtn_bplayer");
 
-			this.element = element;
+			this.element = bpElement;
 			if (typeof element === "string") {
-				this.element = document.querySelector(this.element);
+				element = document.querySelector(element);
 			}
-			if (!(this.element && (this.element.nodeType !== null))) {
+			if (!(element && (element.nodeType !== null))) {
 				throw new Error("Invalid element.");
 			}
-			if (this.element.bPlayer) {
+			if (element.tagName.toUpperCase() === 'BPLAYER') {
 				throw new Error("bPlayer already attached.");
 			}
-			this.element.bPlayer = true;
+
+			var songAudio;
+			if (element.tagName.toUpperCase() === 'AUDIO') {
+				songAudio = element;
+			} else {
+				songAudio = document.createElement('audio');
+			}
 
 			this.slim = function(slim) {
 				if (slim === true) {
@@ -97,7 +94,7 @@
 				}
 			};
 			this.src = function(src) {
-				if (src) {
+				if (src || src === '') {
 					songAudio.src = src;
 					if (!songAudio.autoplay) {
 						_this.pause();
@@ -112,7 +109,7 @@
 				}
 			};
 			this.cover = function(url) {
-				if (url) {
+				if (url || url === '') {
 					songCover.style.backgroundImage = "url(\"" + url + "\")";
 					status.cover = url;
 					return _this;
@@ -121,7 +118,7 @@
 				}
 			};
 			this.title = function(text) {
-				if (text) {
+				if (text || text === '') {
 					songTitle.textContent = text;
 					return _this;
 				} else {
@@ -129,7 +126,7 @@
 				}
 			};
 			this.artist = function(text) {
-				if (text) {
+				if (text || text === '') {
 					songArtists.textContent = text;
 					return _this;
 				} else {
@@ -137,7 +134,7 @@
 				}
 			};
 			this.color = function(color) {
-				if (color) {
+				if (color || color === '') {
 					played.style.backgroundColor = color;
 					volumeVal.style.backgroundColor = color;
 					return _this;
@@ -146,7 +143,7 @@
 				}
 			};
 			this.volume = function(volume) {
-				if (volume) {
+				if (volume || volume === '') {
 					songAudio.volume = volume;
 					return _this;
 				} else {
@@ -204,18 +201,23 @@
 				return _this;
 			};
 			this.init = function() {
-				this.element.appendChild(bpElement);
-				response.call(bpElement);
-				this.element.onselectstart = function() {
-					return false;
-				};
+				if (typeof(bpElement.inited) === 'undefined') {
+					for (var i = 0; i < element.attributes.length; i++) {
+						bpElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
+					}
+					replaceWith(element, bpElement);
+					response.call(bpElement);
+					bpElement.inited = true;
+				} else {
+					console.warn(bpElement, 'has already been initialized!');
+				}
 				return _this;
 			};
 			this.playing = function() {
 				return status.playing;
 			};
 
-			Object.defineProperties(this.element, {
+			Object.defineProperties(bpElement, {
 				slim: {
 					get: function() {
 						return _this.slim();
@@ -266,34 +268,34 @@
 				},
 				volume: {
 					get: function() {
-						return _this.volume();
+						return songAudio.volume;
 					},
 					set: function(volume) {
-						_this.volume(volume);
+						songAudio.volume = volume;
 					}
 				},
 				muted: {
 					get: function() {
-						return _this.muted();
+						return songAudio.muted;
 					},
 					set: function(muted) {
-						_this.muted(muted);
+						songAudio.muted = muted;
 					}
 				},
 				loop: {
 					get: function() {
-						return _this.loop();
+						return songAudio.loop;
 					},
 					set: function(loop) {
-						_this.loop(loop);
+						songAudio.loop = loop;
 					}
 				},
 				autoplay: {
 					get: function() {
-						return _this.autoplay();
+						return songAudio.autoplay;
 					},
 					set: function(autoplay) {
-						_this.autoplay(autoplay);
+						songAudio.autoplay = autoplay;;
 					}
 				},
 				playing: {
@@ -306,23 +308,23 @@
 			window.addEventListener("resize", function() {
 				response.call(bpElement);
 			});
-			progressCtl.onclick = function(e) {
+			progressCtl.addEventListener('click', function(e) {
 				var w = this.clientWidth;
 				var x = e.offsetX;
 				try {
 					songAudio.currentTime = x / w * songAudio.duration;
 				} catch (err) {}
-			};
-			progressCtl.onmousedown = function() {
+			});
+			progressCtl.addEventListener('mousedown', function() {
 				status.progressdown = true;
-			};
-			progressCtl.onmouseup = function() {
+			});
+			progressCtl.addEventListener('mouseup', function() {
 				status.progressdown = false;
-			};
-			progressCtl.onmouseout = function() {
+			});
+			progressCtl.addEventListener('mouseout', function() {
 				status.progressdown = false;
-			};
-			progressCtl.onmousemove = function(e) {
+			});
+			progressCtl.addEventListener('mousemove', function(e) {
 				if (status.progressdown) {
 					var w = this.clientWidth;
 					var x = e.offsetX;
@@ -330,79 +332,137 @@
 						songAudio.currentTime = x / w * songAudio.duration;
 					} catch (err) {}
 				}
-			};
-			volumeCtl.onclick = function(e) {
+			});
+			progressCtl.addEventListener('touchstart', function() {
+				status.progressdown = true;
+			});
+			progressCtl.addEventListener('touchend', function() {
+				status.progressdown = false;
+			});
+			progressCtl.addEventListener('touchmove', function(e) {
+				if (status.progressdown) {
+					var w = this.clientWidth;
+					var x = e.touches[0].pageX - e.target.getBoundingClientRect().left;
+					try {
+						songAudio.currentTime = x / w * songAudio.duration;
+					} catch (err) {}
+				}
+			});
+			volumeCtl.addEventListener('click', function(e) {
 				var x = e.offsetX + 1;
 				if (x >= 0) {
 					songAudio.volume = x / 80;
 				}
-			};
-			volumeCtl.onmousedown = function() {
+			});
+			volumeCtl.addEventListener('mousedown', function() {
 				status.volumedown = true;
-			};
-			volumeCtl.onmouseup = function() {
+			});
+			volumeCtl.addEventListener('mouseup', function() {
 				status.volumedown = false;
-			};
-			volumeCtl.onmouseout = function() {
+			});
+			volumeCtl.addEventListener('mouseout', function() {
 				status.volumedown = false;
-			};
-			volumeCtl.onmousemove = function(e) {
+			});
+			volumeCtl.addEventListener('mousemove', function(e) {
 				if (status.volumedown) {
 					var x = e.offsetX + 1;
 					try {
 						songAudio.volume = x / 80;
 					} catch (err) {}
 				}
-			};
-			volumeBtn.onclick = function() {
+			});
+			volumeCtl.addEventListener('touchstart', function() {
+				status.volumedown = true;
+			});
+			volumeCtl.addEventListener('touchend', function() {
+				status.volumedown = false;
+			});
+			volumeCtl.addEventListener('touchmove', function(e) {
+				if (status.volumedown) {
+					var x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1;
+					try {
+						songAudio.volume = x / 80;
+					} catch (err) {}
+				}
+			});
+			volumeBtn.addEventListener('click', function() {
 				if (_this.muted()) {
 					_this.muted(false);
 				} else {
 					_this.muted(true);
 				}
-			};
-			playCtl.onclick = function() {
+			});
+			playCtl.addEventListener('click', function() {
 				if (status.playing) {
 					_this.pause();
 				} else {
 					_this.play();
 				}
-			};
-			loopBtn.onclick = function() {
+			});
+			loopBtn.addEventListener('click', function() {
 				if (_this.loop()) {
 					_this.loop(false);
 				} else {
 					_this.loop(true);
 				}
-			};
+			});
 
-			songAudio.ontimeupdate = function() {
+			songAudio.addEventListener('timeupdate', function() {
 				played.style.width = this.currentTime / this.duration * 100 + "%";
 				current.textContent = formatTime(this.currentTime);
-			};
-			songAudio.onprogress = function() {
+			});
+			songAudio.addEventListener('progress', function() {
 				try {
 					loaded.style.width = this.buffered.end(this.length - 1) / this.duration * 100 + "%";
 					total.textContent = formatTime(this.duration);
 				} catch (err) {}
-			};
-			songAudio.onvolumechange = function() {
+			});
+			songAudio.addEventListener('volumechange', function() {
 				volumeVal.style.width = this.volume * 80 + "px";
-			};
-			songAudio.onplay = function() {
+			});
+			songAudio.addEventListener('play', function() {
 				playBtn.classList.add('hidden_bplayer');
 				pauseBtn.classList.remove('hidden_bplayer');
 				total.textContent = formatTime(this.duration);
 				status.playing = true;
-			};
-			songAudio.onended = function() {
+			});
+			songAudio.addEventListener('ended', function() {
 				if (!_this.loop()) {
 					_this.pause();
 				}
-			};
+			});
 
 			return _this;
 		}
+	};
+
+	var bPlayer = function(config) {
+		if (config) {
+			if (typeof(config.element) !== 'undefined') {
+				var defaults = {
+					src: '',
+					cover: '',
+					title: '',
+					artist: '',
+					color: '#F00',
+					volume: '1',
+					muted: false,
+					autoplay: false,
+					loop: false,
+					slim: false
+				}
+				for (var i in config) {
+					defaults[i] = config[i];
+				}
+				this.attach(defaults.element).autoplay(defaults.autoplay).cover(defaults.cover).title(defaults.title).artist(defaults.artist).color(defaults.color).volume(defaults.volume).slim(defaults.slim).muted(defaults.muted).loop(defaults.loop).src(defaults.src).init();
+				if (defaults.autoplay) {
+					this.play();
+				}
+			} else {
+				throw new Error('[bPlayer] \'element\' is not defined in configuration!');
+			}
+		}
+		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
 	};
 
 	bPlayer.prototype.attach = attach;
@@ -413,7 +473,7 @@
 		var audios = document.querySelectorAll('audio');
 		for (var i = 0; i < audios.length; i++) {
 			if (audios[i].hasAttribute('controls')) {
-				var title = '', artist = '', cover = ' ', color = '#F00', slim = false, autoplay = false, loop = false;
+				var title = '', artist = '', cover = '', color = '#F00', slim = false, autoplay = false, loop = false;
 				if (audios[i].hasAttribute('title')) {
 					title = audios[i].getAttribute('title');
 				}
@@ -441,19 +501,8 @@
 						loop = true;
 					}
 				}
-				var newDiv = document.createElement('bplayer');
-				if (audios[i].hasAttribute('id')) {
-					newDiv.id = audios[i].id;
-				}
-				if (audios[i].hasAttribute('class')) {
-					newDiv.className = audios[i].className;
-				}
-				if (audios[i].hasAttribute('style')) {
-					newDiv.setAttribute('style',audios[i].getAttribute('style'));
-				}
-				replaceWith(audios[i], newDiv);
 				var newbP = new bPlayer();
-				newbP.attach(newDiv, audios[i]).autoplay(autoplay).loop(loop).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
+				newbP.attach(audios[i]).autoplay(autoplay).loop(loop).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
 				if (autoplay) {
 					newbP.play();
 				}
