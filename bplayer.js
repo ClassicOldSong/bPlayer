@@ -42,16 +42,10 @@
 				slim: false,
 				cover: ''
 			};
-			var bpElement = document.createElement('div');
+			var bpElement = document.createElement('bplayer');
 			bpElement.className = 'bPlayer';
 			bpElement.innerHTML = contentHTML;
 
-			var songAudio;
-			if (audio) {
-				songAudio = audio;
-			} else {
-				songAudio = document.createElement('audio');
-			}
 			var songCover = bpElement.querySelector(".coverimg_bplayer");
 			var progressCtl = bpElement.querySelector(".progressctl_bplayer");
 			var volumeCtl = bpElement.querySelector(".volumectl_bplayer");
@@ -68,17 +62,23 @@
 			var playBtn = bpElement.querySelector("#playBtn_bplayer");
 			var pauseBtn = bpElement.querySelector("#pauseBtn_bplayer");
 
-			this.element = element;
+			this.element = bpElement;
 			if (typeof element === "string") {
-				this.element = document.querySelector(this.element);
+				element = document.querySelector(element);
 			}
-			if (!(this.element && (this.element.nodeType !== null))) {
+			if (!(element && (element.nodeType !== null))) {
 				throw new Error("Invalid element.");
 			}
-			if (this.element.bPlayer) {
+			if (element.tagName.toUpperCase() === 'BPLAYER') {
 				throw new Error("bPlayer already attached.");
 			}
-			this.element.bPlayer = true;
+
+			var songAudio;
+			if (element.tagName.toUpperCase() === 'AUDIO') {
+				songAudio = element;
+			} else {
+				songAudio = document.createElement('audio');
+			}
 
 			this.slim = function(slim) {
 				if (slim === true) {
@@ -201,18 +201,23 @@
 				return _this;
 			};
 			this.init = function() {
-				this.element.appendChild(bpElement);
-				response.call(bpElement);
-				this.element.addEventListener('selectstart', function() {
-					return false;
-				});
+				if (typeof(bpElement.inited) === 'undefined') {
+					for (var i = 0; i < element.attributes.length; i++) {
+						bpElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
+					}
+					replaceWith(element, bpElement);
+					response.call(bpElement);
+					bpElement.inited = true;
+				} else {
+					console.warn(bpElement, 'has already been initialized!');
+				}
 				return _this;
 			};
 			this.playing = function() {
 				return status.playing;
 			};
 
-			Object.defineProperties(this.element, {
+			Object.defineProperties(bpElement, {
 				slim: {
 					get: function() {
 						return _this.slim();
@@ -263,34 +268,34 @@
 				},
 				volume: {
 					get: function() {
-						return _this.volume();
+						return songAudio.volume;
 					},
 					set: function(volume) {
-						_this.volume(volume);
+						songAudio.volume = volume;
 					}
 				},
 				muted: {
 					get: function() {
-						return _this.muted();
+						return songAudio.muted;
 					},
 					set: function(muted) {
-						_this.muted(muted);
+						songAudio.muted = muted;
 					}
 				},
 				loop: {
 					get: function() {
-						return _this.loop();
+						return songAudio.loop;
 					},
 					set: function(loop) {
-						_this.loop(loop);
+						songAudio.loop = loop;
 					}
 				},
 				autoplay: {
 					get: function() {
-						return _this.autoplay();
+						return songAudio.autoplay;
 					},
 					set: function(autoplay) {
-						_this.autoplay(autoplay);
+						songAudio.autoplay = autoplay;;
 					}
 				},
 				playing: {
@@ -496,19 +501,8 @@
 						loop = true;
 					}
 				}
-				var newDiv = document.createElement('bplayer');
-				if (audios[i].hasAttribute('id')) {
-					newDiv.id = audios[i].id;
-				}
-				if (audios[i].hasAttribute('class')) {
-					newDiv.className = audios[i].className;
-				}
-				if (audios[i].hasAttribute('style')) {
-					newDiv.setAttribute('style',audios[i].getAttribute('style'));
-				}
-				replaceWith(audios[i], newDiv);
 				var newbP = new bPlayer();
-				newbP.attach(newDiv, audios[i]).autoplay(autoplay).loop(loop).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
+				newbP.attach(audios[i]).autoplay(autoplay).loop(loop).title(title).artist(artist).cover(cover).color(color).slim(slim).init();
 				if (autoplay) {
 					newbP.play();
 				}

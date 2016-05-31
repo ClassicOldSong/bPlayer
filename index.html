@@ -5,17 +5,24 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<meta name="msapplication-tap-highlight" content="no"/>
-	<title>bPlayer - 比原生播放器好一点点</title>
+	<title>bPlayer - 原生音频播放器的绝佳替代品</title>
 	<link rel="stylesheet" href="bplayer.css">
 	<script src="bplayer.js"></script>
 	<script>
 		window.onload = function() {
 			var bp1 = new bPlayer();
 			var bp2 = new bPlayer();
-			var bp3 = new bPlayer();
 			bp1.attach("#bp1").color("#66ccff").autoplay(true).src("http://m2.music.126.net/6wFgmjNVtAKKGuCtThjvWA==/1984618488140540.mp3").title("WolfRed").artist("Jelonek").cover("http://p1.music.126.net/2Ud6-aBR505cdusUwCkTKQ==/815837627851851.jpg?param=60x60").init();
 			bp2.attach("#bp2").color("#CC3366").src("http://m2.music.126.net/Ne2y18_WUIHdGaXjjZSKwA==/7857110092450532.mp3").loop(true).title("Vibrance").artist("Wisp X").cover("http://p1.music.126.net/jg2j75C9gk9Hs79zHtEbtQ==/7731765766799148.jpg?param=60x60").init();
-			bp3.attach("#bp3").color("#41bffe").src("http://m2.music.126.net/rEsHTa-IH6DP1kiVlPnSJw==/1426066588391914.mp3").title("Loopliness").artist("ClassicOldSong").cover("http://p1.music.126.net/oajD4HBRZYlMM1b7NVTlxA==/17816486416670349.jpg?param=30x30").slim(true).init();
+			var bp3 = new bPlayer({
+				element: "#bp3",
+				color: "#41bffe",
+				src: "http://m2.music.126.net/rEsHTa-IH6DP1kiVlPnSJw==/1426066588391914.mp3",
+				title: "Loopliness",
+				artist: "ClassicOldSong",
+				cover: "http://p1.music.126.net/oajD4HBRZYlMM1b7NVTlxA==/17816486416670349.jpg?param=30x30",
+				slim: true
+			});
 			window.bp1 = bp1;
 			window.bp2 = bp2;
 			window.bp3 = bp3;
@@ -33,17 +40,20 @@
 			padding: 3px 5px;
 			color: #FFF;
 		}
-		a{
+		a {
 			text-decoration: none;
 			color:#666;
 		}
 			a:hover{
 				color:#999;
 			}
-		p{
+		p {
 			line-height: 2em;
-			margin:0 0 20px;
+			margin:0 0 18px;
 			text-align: center;
+		}
+		small {
+			font-size: 60%;
 		}
 		.center {
 			margin: 0 auto;
@@ -61,10 +71,19 @@
 </head>
 <body>
 	<div class="center">
-		<h1>bPlayer - 比原生播放器好一点点</h1>
-		<div id="bp1" class="test"><h3>#bp1 with autoplay enabled</h3></div>
-		<div id="bp2" class="test"><h3>#bp2 with loop enabled</h3></div>
-		<div id="bp3" class="test"><h3>#bp3 with slim mode enabled</h3></div>
+		<h1>bPlayer - 原生音频播放器的绝佳替代品</h1>
+		<div class="test">
+			<h3>#bp1 with autoplay enabled</h3>
+			<div id="bp1"></div>
+		</div>
+		<div class="test">
+			<h3>#bp2 with loop enabled</h3>
+			<div id="bp2"></div>
+		</div>
+		<div class="test">
+			<h3>#bp3 created from JSON with slim mode enabled</h3>
+			<div id="bp3"></div>
+		</div>
 		<div class="test">
 			<h3>#bp4 converted from Audio element with loop enabled</h3>
 			<audio id="bp4" controls loop="true" title="Before You Were Gone" artist="Xeuphoria" slim="false" color="#F55177" cover="http://p1.music.126.net/SM4DSR9CcPrIz2AuJMcbzQ==/7932976395107627.jpg?param=60x60" src="http://m2.music.126.net/WsvItze5lUO16xk3Mu2G5Q==/7726268209377349.mp3"></audio>
@@ -76,7 +95,7 @@
 		<hr />
 		<p>可以尝试打开控制台对 bp1, bp2, bp3 进行控制，例如：<code>bp1.color("#FF2870");</code></p>
 		<p>对于由Audio转换而来的元素,可以直接根据原来的id获取元素进行控制，例如：<br /><code>document.querySelector('#bp4').title = "whatever you want"</code></p>
-		<p><b>*DEMO中使用的音乐版权归原作者所有*</b><br />小声：Loopliness的确是我自己制作的音乐233</p>
+		<p><b>*DEMO中使用的音乐版权归原作者所有*</b><br /><small>小声：Loopliness的确是我自己制作的音乐233</small></p>
 		<br />
 		<div class="links">
 			<a href="https://github.com/ClassicOldSong/bPlayer" target="_blank">View on GitHub</a> | <a href="https://nzone.link" target="_blank">Visit NZone!</a> | <a href="http://classicoldsong.me" target="_blank">Visit my blog</a>
