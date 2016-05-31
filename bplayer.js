@@ -2,9 +2,6 @@
 
 (function() {
 	/*jshint validthis:true */
-	var bPlayer = function() {
-		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
-	};
 
 	// Set bPlayer element
 	var contentHTML = '<div class="info_bplayer"><div class="titlewrap_bplayer"><span class="title_bplayer">Unknown Title</span><span class="author_bplayer">Unknown Artist</span></div><div class="time_bplayer"><span class="current_bplayer">0:00</span><span class="total_bplayer">0:00</span></div><div class="buttons_bplayer"><div class="disabled_bplayer btn_bplayer" id="loopBtn_bplayer"><i class="iconfont_bplayer">&#xe600;</i></div><div class="volume_bplayer"><div class="volumebtn_bplayer btn_bplayer" id="volumeBtn_bplayer"><i class="iconfont_bplayer">&#xe602;</i></div><div class="volumebar_bplayer"><div class="volumebg_bplayer"></div><div class="volumeval_bplayer"></div><div class="volumectl_bplayer"></div></div></div></div></div><div class="cover_bplayer"><div class="coverimg_bplayer"></div><div class="controlbtn_bplayer playBtn_bplayer" id="playBtn_bplayer"><i class="iconfont_bplayer">&#xe601;</i></div><div class="controlbtn_bplayer hidden_bplayer" id="pauseBtn_bplayer"><i class="iconfont_bplayer">&#xe603;</i></div></div><div class="progress_bplayer"><div class="loaded_bplayer"></div><div class="played_bplayer"></div><div class="progressctl_bplayer"></div></div>';
@@ -97,7 +94,7 @@
 				}
 			};
 			this.src = function(src) {
-				if (src) {
+				if (src || src === '') {
 					songAudio.src = src;
 					if (!songAudio.autoplay) {
 						_this.pause();
@@ -112,7 +109,7 @@
 				}
 			};
 			this.cover = function(url) {
-				if (url) {
+				if (url || url === '') {
 					songCover.style.backgroundImage = "url(\"" + url + "\")";
 					status.cover = url;
 					return _this;
@@ -121,7 +118,7 @@
 				}
 			};
 			this.title = function(text) {
-				if (text) {
+				if (text || text === '') {
 					songTitle.textContent = text;
 					return _this;
 				} else {
@@ -129,7 +126,7 @@
 				}
 			};
 			this.artist = function(text) {
-				if (text) {
+				if (text || text === '') {
 					songArtists.textContent = text;
 					return _this;
 				} else {
@@ -137,7 +134,7 @@
 				}
 			};
 			this.color = function(color) {
-				if (color) {
+				if (color || color === '') {
 					played.style.backgroundColor = color;
 					volumeVal.style.backgroundColor = color;
 					return _this;
@@ -146,7 +143,7 @@
 				}
 			};
 			this.volume = function(volume) {
-				if (volume) {
+				if (volume || volume === '') {
 					songAudio.volume = volume;
 					return _this;
 				} else {
@@ -432,6 +429,33 @@
 
 			return _this;
 		}
+	};
+
+	var bPlayer = function(config) {
+		if (config) {
+			if (typeof(config.element) !== 'undefined') {
+				var defaults = {
+					src: '',
+					cover: '',
+					title: '',
+					artist: '',
+					color: '#F00',
+					volume: '1',
+					muted: false,
+					autoplay: false,
+					loop: false,
+					slim: false
+				}
+				for (var i in config) {
+					defaults[i] = config[i];
+				}
+				this.attach(defaults.element).autoplay(defaults.autoplay).cover(defaults.cover).title(defaults.title).artist(defaults.artist).color(defaults.color).volume(defaults.volume).slim(defaults.slim).muted(defaults.muted).loop(defaults.loop).src(defaults.src).init();
+				if (defaults.autoplay) {
+					this.play();
+				}
+			}
+		}
+		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
 	};
 
 	bPlayer.prototype.attach = attach;
