@@ -206,9 +206,9 @@
 			this.init = function() {
 				this.element.appendChild(bpElement);
 				response.call(bpElement);
-				this.element.onselectstart = function() {
+				this.element.addEventListener('selectstart', function() {
 					return false;
-				};
+				});
 				return _this;
 			};
 			this.playing = function() {
@@ -306,23 +306,23 @@
 			window.addEventListener("resize", function() {
 				response.call(bpElement);
 			});
-			progressCtl.onclick = function(e) {
+			progressCtl.addEventListener('click', function(e) {
 				var w = this.clientWidth;
 				var x = e.offsetX;
 				try {
 					songAudio.currentTime = x / w * songAudio.duration;
 				} catch (err) {}
-			};
-			progressCtl.onmousedown = function() {
+			});
+			progressCtl.addEventListener('mousedown', function() {
 				status.progressdown = true;
-			};
-			progressCtl.onmouseup = function() {
+			});
+			progressCtl.addEventListener('mouseup', function() {
 				status.progressdown = false;
-			};
-			progressCtl.onmouseout = function() {
+			});
+			progressCtl.addEventListener('mouseout', function() {
 				status.progressdown = false;
-			};
-			progressCtl.onmousemove = function(e) {
+			});
+			progressCtl.addEventListener('mousemove', function(e) {
 				if (status.progressdown) {
 					var w = this.clientWidth;
 					var x = e.offsetX;
@@ -330,76 +330,105 @@
 						songAudio.currentTime = x / w * songAudio.duration;
 					} catch (err) {}
 				}
-			};
-			volumeCtl.onclick = function(e) {
+			});
+			progressCtl.addEventListener('touchstart', function() {
+				status.progressdown = true;
+			});
+			progressCtl.addEventListener('touchend', function() {
+				status.progressdown = false;
+			});
+			progressCtl.addEventListener('touchmove', function(e) {
+				if (status.progressdown) {
+					var w = this.clientWidth;
+					var x = e.touches[0].pageX - e.target.getBoundingClientRect().left;
+					try {
+						songAudio.currentTime = x / w * songAudio.duration;
+					} catch (err) {}
+				}
+			});
+			volumeCtl.addEventListener('click', function(e) {
 				var x = e.offsetX + 1;
 				if (x >= 0) {
 					songAudio.volume = x / 80;
 				}
-			};
-			volumeCtl.onmousedown = function() {
+			});
+			volumeCtl.addEventListener('mousedown', function() {
 				status.volumedown = true;
-			};
-			volumeCtl.onmouseup = function() {
+			});
+			volumeCtl.addEventListener('mouseup', function() {
 				status.volumedown = false;
-			};
-			volumeCtl.onmouseout = function() {
+			});
+			volumeCtl.addEventListener('mouseout', function() {
 				status.volumedown = false;
-			};
-			volumeCtl.onmousemove = function(e) {
+			});
+			volumeCtl.addEventListener('mousemove', function(e) {
 				if (status.volumedown) {
 					var x = e.offsetX + 1;
 					try {
 						songAudio.volume = x / 80;
 					} catch (err) {}
 				}
-			};
-			volumeBtn.onclick = function() {
+			});
+			volumeCtl.addEventListener('touchstart', function() {
+				status.volumedown = true;
+			});
+			volumeCtl.addEventListener('touchend', function() {
+				status.volumedown = false;
+			});
+			volumeCtl.addEventListener('touchmove', function(e) {
+				if (status.volumedown) {
+					var x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1;
+					try {
+						songAudio.volume = x / 80;
+					} catch (err) {}
+				}
+			});
+			volumeBtn.addEventListener('click', function() {
 				if (_this.muted()) {
 					_this.muted(false);
 				} else {
 					_this.muted(true);
 				}
-			};
-			playCtl.onclick = function() {
+			});
+			playCtl.addEventListener('click', function() {
 				if (status.playing) {
 					_this.pause();
 				} else {
 					_this.play();
 				}
-			};
-			loopBtn.onclick = function() {
+			});
+			loopBtn.addEventListener('click', function() {
 				if (_this.loop()) {
 					_this.loop(false);
 				} else {
 					_this.loop(true);
 				}
-			};
+			});
 
-			songAudio.ontimeupdate = function() {
+			songAudio.addEventListener('timeupdate', function() {
 				played.style.width = this.currentTime / this.duration * 100 + "%";
 				current.textContent = formatTime(this.currentTime);
-			};
-			songAudio.onprogress = function() {
+			});
+			songAudio.addEventListener('progress', function() {
 				try {
 					loaded.style.width = this.buffered.end(this.length - 1) / this.duration * 100 + "%";
 					total.textContent = formatTime(this.duration);
 				} catch (err) {}
-			};
-			songAudio.onvolumechange = function() {
+			});
+			songAudio.addEventListener('volumechange', function() {
 				volumeVal.style.width = this.volume * 80 + "px";
-			};
-			songAudio.onplay = function() {
+			});
+			songAudio.addEventListener('play', function() {
 				playBtn.classList.add('hidden_bplayer');
 				pauseBtn.classList.remove('hidden_bplayer');
 				total.textContent = formatTime(this.duration);
 				status.playing = true;
-			};
-			songAudio.onended = function() {
+			});
+			songAudio.addEventListener('ended', function() {
 				if (!_this.loop()) {
 					_this.pause();
 				}
-			};
+			});
 
 			return _this;
 		}
