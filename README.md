@@ -90,7 +90,7 @@ var bplayer = new bPlayer();
 + `bplayer.play() // 播放`
 + `bplayer.pause() // 暂停`
 + `bplayer.init() // 使绑定的元素成为bPlayer`
-+ `bplayer.playing() // 获取播放状态`
++ `bplayer.paused() // 获取播放状态`
 
 ##### JSON传入法
 ~~~ javascript
@@ -122,7 +122,7 @@ var bplayer = new bPlayer({
 + `element.muted`
 + `element.autoplay`
 + `element.loop`
-+ `element.playing`
++ `element.paused`
 
 ## TBD
 
