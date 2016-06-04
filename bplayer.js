@@ -32,437 +32,431 @@
 	};
 
 	// Attach and append element
-	var attach = function(element, audio) {
+	var attach = function(element) {
 		var _this = this;
-		if (element) {
-			var status = {
-				volumedown: false,
-				progressdown: false,
-				playing: false,
-				slim: false,
-				cover: ''
-			};
-			var bpElement = document.createElement('bplayer');
-			bpElement.className = 'bPlayer';
-			bpElement.innerHTML = contentHTML;
+		if (!element) return _this;
 
-			var songCover = bpElement.querySelector(".coverimg_bplayer");
-			var progressCtl = bpElement.querySelector(".progressctl_bplayer");
-			var volumeCtl = bpElement.querySelector(".volumectl_bplayer");
-			var songTitle = bpElement.querySelector(".title_bplayer");
-			var songArtists = bpElement.querySelector(".author_bplayer");
-			var played = bpElement.querySelector(".played_bplayer");
-			var current = bpElement.querySelector(".current_bplayer");
-			var loaded = bpElement.querySelector(".loaded_bplayer");
-			var total = bpElement.querySelector(".total_bplayer");
-			var volumeVal = bpElement.querySelector(".volumeval_bplayer");
-			var playCtl = bpElement.querySelector(".cover_bplayer");
-			var volumeBtn = bpElement.querySelector("#volumeBtn_bplayer");
-			var loopBtn = bpElement.querySelector("#loopBtn_bplayer");
-			var playBtn = bpElement.querySelector("#playBtn_bplayer");
-			var pauseBtn = bpElement.querySelector("#pauseBtn_bplayer");
+		var status = {
+			volumedown: false,
+			progressdown: false,
+			playing: false,
+			slim: false,
+			cover: ''
+		};
+		var bpElement = document.createElement('bplayer');
+		bpElement.className = 'bPlayer';
+		bpElement.innerHTML = contentHTML;
 
-			this.element = bpElement;
-			if (typeof element === "string") {
-				element = document.querySelector(element);
-			}
-			if (!(element && (element.nodeType !== null))) {
-				throw new Error("Invalid element.");
-			}
-			if (element.tagName.toUpperCase() === 'BPLAYER') {
-				throw new Error("bPlayer already attached.");
-			}
+		var songCover = bpElement.querySelector(".coverimg_bplayer");
+		var progressCtl = bpElement.querySelector(".progressctl_bplayer");
+		var volumeCtl = bpElement.querySelector(".volumectl_bplayer");
+		var songTitle = bpElement.querySelector(".title_bplayer");
+		var songArtists = bpElement.querySelector(".author_bplayer");
+		var played = bpElement.querySelector(".played_bplayer");
+		var current = bpElement.querySelector(".current_bplayer");
+		var loaded = bpElement.querySelector(".loaded_bplayer");
+		var total = bpElement.querySelector(".total_bplayer");
+		var volumeVal = bpElement.querySelector(".volumeval_bplayer");
+		var playCtl = bpElement.querySelector(".cover_bplayer");
+		var volumeBtn = bpElement.querySelector("#volumeBtn_bplayer");
+		var loopBtn = bpElement.querySelector("#loopBtn_bplayer");
+		var playBtn = bpElement.querySelector("#playBtn_bplayer");
+		var pauseBtn = bpElement.querySelector("#pauseBtn_bplayer");
 
-			var songAudio;
-			if (element.tagName.toUpperCase() === 'AUDIO') {
-				songAudio = element;
+		this.element = bpElement;
+		if (typeof element === "string") {
+			element = document.querySelector(element);
+		}
+		if (!(element && (element.nodeType !== null))) {
+			throw new Error("Invalid element.");
+		}
+		if (element.tagName.toUpperCase() === 'BPLAYER') {
+			throw new Error("bPlayer already attached.");
+		}
+
+		var songAudio;
+		if (element.tagName.toUpperCase() === 'AUDIO') {
+			songAudio = element;
+		} else {
+			songAudio = document.createElement('audio');
+		}
+
+		this.slim = function(slim) {
+			if (slim === true) {
+				bpElement.classList.add('slim_bPlayer');
+				status.slim = true;
+				return _this;
+			} else if (slim === false) {
+				bpElement.classList.remove('slim_bPlayer');
+				status.slim = false;
+				return _this;
 			} else {
-				songAudio = document.createElement('audio');
+				return status.slim;
 			}
-
-			this.slim = function(slim) {
-				if (slim === true) {
-					bpElement.classList.add('slim_bPlayer');
-					status.slim = true;
-					return _this;
-				} else if (slim === false) {
-					bpElement.classList.remove('slim_bPlayer');
-					status.slim = false;
-					return _this;
-				} else {
-					return status.slim;
+		};
+		this.src = function(src) {
+			if (src || src === '') {
+				songAudio.src = src;
+				if (!songAudio.autoplay) {
+					_this.pause();
 				}
-			};
-			this.src = function(src) {
-				if (src || src === '') {
-					songAudio.src = src;
-					if (!songAudio.autoplay) {
-						_this.pause();
-					}
-					current.textContent = "0:00";
-					total.textContent = "0:00";
-					played.style.width = 0;
-					loaded.style.width = 0;
-					return _this;
-				} else {
-					return songAudio.src;
-				}
-			};
-			this.cover = function(url) {
-				if (url || url === '') {
-					songCover.style.backgroundImage = "url(\"" + url + "\")";
-					status.cover = url;
-					return _this;
-				} else {
-					return status.cover;
-				}
-			};
-			this.title = function(text) {
-				if (text || text === '') {
-					songTitle.textContent = text;
-					return _this;
-				} else {
-					return songTitle.textContent;
-				}
-			};
-			this.artist = function(text) {
-				if (text || text === '') {
-					songArtists.textContent = text;
-					return _this;
-				} else {
-					return songArtists.textContent;
-				}
-			};
-			this.color = function(color) {
-				if (color || color === '') {
-					played.style.backgroundColor = color;
-					volumeVal.style.backgroundColor = color;
-					return _this;
-				} else {
-					return played.style.backgroundColor;
-				}
-			};
-			this.volume = function(volume) {
-				if (volume || volume === '') {
-					songAudio.volume = volume;
-					return _this;
-				} else {
-					return songAudio.volume;
-				}
-			};
-			this.muted = function(mute) {
-				if (mute === false) {
-					songAudio.muted = mute;
-					volumeBtn.classList.remove('disabled_bplayer');
-					return _this;
-				} else if (mute === true) {
-					songAudio.muted = mute;
-					volumeBtn.classList.add('disabled_bplayer');
-					return _this;
-				} else {
-					return songAudio.muted;
-				}
-			};
-			this.loop = function(loop) {
-				if (loop === false) {
-					songAudio.loop = loop;
-					loopBtn.classList.add('disabled_bplayer');
-					return _this;
-				} else if (loop === true) {
-					songAudio.loop = loop;
-					loopBtn.classList.remove('disabled_bplayer');
-					return _this;
-				} else {
-					return songAudio.loop;
-				}
-			};
-			this.autoplay = function(autoplay) {
-				if (autoplay === false) {
-					songAudio.autoplay = autoplay;
-					return _this;
-				} else if (autoplay === true) {
-					songAudio.autoplay = autoplay;
-					return _this;
-				} else {
-					return songAudio.autoplay;
-				}
-			};
-			this.play = function() {
-				if (this.src() !== "" && this.src() !== null) {
-					songAudio.play();
-				}
+				current.textContent = "0:00";
+				total.textContent = "0:00";
+				played.style.width = 0;
+				loaded.style.width = 0;
 				return _this;
-			};
-			this.pause = function() {
-				songAudio.pause();
-				playBtn.classList.remove('hidden_bplayer');
-				pauseBtn.classList.add('hidden_bplayer');
-				status.playing = false;
+			} else {
+				return songAudio.src;
+			}
+		};
+		this.cover = function(url) {
+			if (url || url === '') {
+				songCover.style.backgroundImage = "url(\"" + url + "\")";
+				status.cover = url;
 				return _this;
-			};
-			this.init = function() {
-				if (typeof(bpElement.inited) === 'undefined') {
-					for (var i = 0; i < element.attributes.length; i++) {
-						bpElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
-					}
-					replaceWith(element, bpElement);
-					response.call(bpElement);
-					bpElement.inited = true;
-				} else {
-					console.warn(bpElement, 'has already been initialized!');
-				}
+			} else {
+				return status.cover;
+			}
+		};
+		this.title = function(text) {
+			if (text || text === '') {
+				songTitle.textContent = text;
 				return _this;
-			};
-			this.playing = function() {
-				return status.playing;
-			};
-
-			Object.defineProperties(bpElement, {
-				slim: {
-					get: function() {
-						return _this.slim();
-					},
-					set: function(slim) {
-						_this.slim(slim);
-					}
-				},
-				src: {
-					get: function() {
-						return _this.src();
-					},
-					set: function(src) {
-						_this.src(src);
-					}
-				},
-				cover: {
-					get: function() {
-						return _this.cover();
-					},
-					set: function(cover) {
-						_this.cover(cover);
-					}
-				},
-				title: {
-					get: function() {
-						return _this.title();
-					},
-					set: function(title) {
-						_this.title(title);
-					}
-				},
-				artist: {
-					get: function() {
-						return _this.artist();
-					},
-					set: function(artist) {
-						_this.artist(artist);
-					}
-				},
-				color: {
-					get: function() {
-						return _this.color();
-					},
-					set: function(color) {
-						_this.color(color);
-					}
-				},
-				volume: {
-					get: function() {
-						return songAudio.volume;
-					},
-					set: function(volume) {
-						songAudio.volume = volume;
-					}
-				},
-				muted: {
-					get: function() {
-						return songAudio.muted;
-					},
-					set: function(muted) {
-						songAudio.muted = muted;
-					}
-				},
-				loop: {
-					get: function() {
-						return songAudio.loop;
-					},
-					set: function(loop) {
-						songAudio.loop = loop;
-					}
-				},
-				autoplay: {
-					get: function() {
-						return songAudio.autoplay;
-					},
-					set: function(autoplay) {
-						songAudio.autoplay = autoplay;;
-					}
-				},
-				playing: {
-					get: function() {
-						return status.playing;
-					}
+			} else {
+				return songTitle.textContent;
+			}
+		};
+		this.artist = function(text) {
+			if (text || text === '') {
+				songArtists.textContent = text;
+				return _this;
+			} else {
+				return songArtists.textContent;
+			}
+		};
+		this.color = function(color) {
+			if (color || color === '') {
+				played.style.backgroundColor = color;
+				volumeVal.style.backgroundColor = color;
+				return _this;
+			} else {
+				return played.style.backgroundColor;
+			}
+		};
+		this.volume = function(volume) {
+			if (volume || volume === '') {
+				songAudio.volume = volume;
+				return _this;
+			} else {
+				return songAudio.volume;
+			}
+		};
+		this.muted = function(mute) {
+			if (mute === false) {
+				songAudio.muted = mute;
+				volumeBtn.classList.remove('disabled_bplayer');
+				return _this;
+			} else if (mute === true) {
+				songAudio.muted = mute;
+				volumeBtn.classList.add('disabled_bplayer');
+				return _this;
+			} else {
+				return songAudio.muted;
+			}
+		};
+		this.loop = function(loop) {
+			if (loop === false) {
+				songAudio.loop = loop;
+				loopBtn.classList.add('disabled_bplayer');
+				return _this;
+			} else if (loop === true) {
+				songAudio.loop = loop;
+				loopBtn.classList.remove('disabled_bplayer');
+				return _this;
+			} else {
+				return songAudio.loop;
+			}
+		};
+		this.autoplay = function(autoplay) {
+			if (autoplay === false) {
+				songAudio.autoplay = autoplay;
+				return _this;
+			} else if (autoplay === true) {
+				songAudio.autoplay = autoplay;
+				return _this;
+			} else {
+				return songAudio.autoplay;
+			}
+		};
+		this.play = function() {
+			if (this.src() !== "" && this.src() !== null) {
+				songAudio.play();
+			}
+			return _this;
+		};
+		this.pause = function() {
+			songAudio.pause();
+			playBtn.classList.remove('hidden_bplayer');
+			pauseBtn.classList.add('hidden_bplayer');
+			status.playing = false;
+			return _this;
+		};
+		this.init = function() {
+			if (typeof(bpElement.inited) === 'undefined') {
+				for (var i = 0; i < element.attributes.length; i++) {
+					bpElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
 				}
-			});
-
-			window.addEventListener("resize", function() {
+				replaceWith(element, bpElement);
 				response.call(bpElement);
-			});
-			progressCtl.addEventListener('click', function(e) {
+				bpElement.inited = true;
+			} else {
+				console.warn(bpElement, 'has already been initialized!');
+			}
+			return _this;
+		};
+		this.playing = function() {
+			return status.playing;
+		};
+
+		Object.defineProperties(bpElement, {
+			slim: {
+				get: function() {
+					return _this.slim();
+				},
+				set: function(slim) {
+					_this.slim(slim);
+				}
+			},
+			src: {
+				get: function() {
+					return _this.src();
+				},
+				set: function(src) {
+					_this.src(src);
+				}
+			},
+			cover: {
+				get: function() {
+					return _this.cover();
+				},
+				set: function(cover) {
+					_this.cover(cover);
+				}
+			},
+			title: {
+				get: function() {
+					return _this.title();
+				},
+				set: function(title) {
+					_this.title(title);
+				}
+			},
+			artist: {
+				get: function() {
+					return _this.artist();
+				},
+				set: function(artist) {
+					_this.artist(artist);
+				}
+			},
+			color: {
+				get: function() {
+					return _this.color();
+				},
+				set: function(color) {
+					_this.color(color);
+				}
+			},
+			volume: {
+				get: function() {
+					return _this.volume();
+				},
+				set: function(volume) {
+					_this.volume(volume);
+				}
+			},
+			muted: {
+				get: function() {
+					return _this.muted();
+				},
+				set: function(muted) {
+					_this.muted(muted);
+				}
+			},
+			loop: {
+				get: function() {
+					return _this.loop();
+				},
+				set: function(loop) {
+					_this.loop(loop);
+				}
+			},
+			autoplay: {
+				get: function() {
+					return _this.autoplay();
+				},
+				set: function(autoplay) {
+					_this.autoplay(autoplay);
+				}
+			},
+			playing: {
+				get: function() {
+					return status.playing;
+				}
+			}
+		});
+
+		window.addEventListener("resize", function() {
+			response.call(bpElement);
+		});
+		progressCtl.addEventListener('click', function(e) {
+			var w = this.clientWidth;
+			var x = e.offsetX;
+			try {
+				songAudio.currentTime = x / w * songAudio.duration;
+			} catch (err) {}
+		});
+		progressCtl.addEventListener('mousedown', function() {
+			status.progressdown = true;
+		});
+		progressCtl.addEventListener('mouseup', function() {
+			status.progressdown = false;
+		});
+		progressCtl.addEventListener('mouseout', function() {
+			status.progressdown = false;
+		});
+		progressCtl.addEventListener('mousemove', function(e) {
+			if (status.progressdown) {
 				var w = this.clientWidth;
 				var x = e.offsetX;
 				try {
 					songAudio.currentTime = x / w * songAudio.duration;
 				} catch (err) {}
-			});
-			progressCtl.addEventListener('mousedown', function() {
-				status.progressdown = true;
-			});
-			progressCtl.addEventListener('mouseup', function() {
-				status.progressdown = false;
-			});
-			progressCtl.addEventListener('mouseout', function() {
-				status.progressdown = false;
-			});
-			progressCtl.addEventListener('mousemove', function(e) {
-				if (status.progressdown) {
-					var w = this.clientWidth;
-					var x = e.offsetX;
-					try {
-						songAudio.currentTime = x / w * songAudio.duration;
-					} catch (err) {}
-				}
-			});
-			progressCtl.addEventListener('touchstart', function() {
-				status.progressdown = true;
-			});
-			progressCtl.addEventListener('touchend', function() {
-				status.progressdown = false;
-			});
-			progressCtl.addEventListener('touchmove', function(e) {
-				if (status.progressdown) {
-					var w = this.clientWidth;
-					var x = e.touches[0].pageX - e.target.getBoundingClientRect().left;
-					try {
-						songAudio.currentTime = x / w * songAudio.duration;
-					} catch (err) {}
-				}
-			});
-			volumeCtl.addEventListener('click', function(e) {
-				var x = e.offsetX + 1;
-				if (x >= 0) {
-					songAudio.volume = x / 80;
-				}
-			});
-			volumeCtl.addEventListener('mousedown', function() {
-				status.volumedown = true;
-			});
-			volumeCtl.addEventListener('mouseup', function() {
-				status.volumedown = false;
-			});
-			volumeCtl.addEventListener('mouseout', function() {
-				status.volumedown = false;
-			});
-			volumeCtl.addEventListener('mousemove', function(e) {
-				if (status.volumedown) {
-					var x = e.offsetX + 1;
-					try {
-						songAudio.volume = x / 80;
-					} catch (err) {}
-				}
-			});
-			volumeCtl.addEventListener('touchstart', function() {
-				status.volumedown = true;
-			});
-			volumeCtl.addEventListener('touchend', function() {
-				status.volumedown = false;
-			});
-			volumeCtl.addEventListener('touchmove', function(e) {
-				if (status.volumedown) {
-					var x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1;
-					try {
-						songAudio.volume = x / 80;
-					} catch (err) {}
-				}
-			});
-			volumeBtn.addEventListener('click', function() {
-				if (_this.muted()) {
-					_this.muted(false);
-				} else {
-					_this.muted(true);
-				}
-			});
-			playCtl.addEventListener('click', function() {
-				if (status.playing) {
-					_this.pause();
-				} else {
-					_this.play();
-				}
-			});
-			loopBtn.addEventListener('click', function() {
-				if (_this.loop()) {
-					_this.loop(false);
-				} else {
-					_this.loop(true);
-				}
-			});
-
-			songAudio.addEventListener('timeupdate', function() {
-				played.style.width = this.currentTime / this.duration * 100 + "%";
-				current.textContent = formatTime(this.currentTime);
-			});
-			songAudio.addEventListener('progress', function() {
+			}
+		});
+		progressCtl.addEventListener('touchstart', function() {
+			status.progressdown = true;
+		});
+		progressCtl.addEventListener('touchend', function() {
+			status.progressdown = false;
+		});
+		progressCtl.addEventListener('touchmove', function(e) {
+			if (status.progressdown) {
+				var w = this.clientWidth;
+				var x = e.touches[0].pageX - e.target.getBoundingClientRect().left;
 				try {
-					loaded.style.width = this.buffered.end(this.length - 1) / this.duration * 100 + "%";
-					total.textContent = formatTime(this.duration);
+					songAudio.currentTime = x / w * songAudio.duration;
 				} catch (err) {}
-			});
-			songAudio.addEventListener('volumechange', function() {
-				volumeVal.style.width = this.volume * 80 + "px";
-			});
-			songAudio.addEventListener('play', function() {
-				playBtn.classList.add('hidden_bplayer');
-				pauseBtn.classList.remove('hidden_bplayer');
-				total.textContent = formatTime(this.duration);
-				status.playing = true;
-			});
-			songAudio.addEventListener('ended', function() {
-				if (!_this.loop()) {
-					_this.pause();
-				}
-			});
+			}
+		});
+		volumeCtl.addEventListener('click', function(e) {
+			var x = e.offsetX + 1;
+			if (x >= 0) {
+				songAudio.volume = x / 80;
+			}
+		});
+		volumeCtl.addEventListener('mousedown', function() {
+			status.volumedown = true;
+		});
+		volumeCtl.addEventListener('mouseup', function() {
+			status.volumedown = false;
+		});
+		volumeCtl.addEventListener('mouseout', function() {
+			status.volumedown = false;
+		});
+		volumeCtl.addEventListener('mousemove', function(e) {
+			if (status.volumedown) {
+				var x = e.offsetX + 1;
+				try {
+					songAudio.volume = x / 80;
+				} catch (err) {}
+			}
+		});
+		volumeCtl.addEventListener('touchstart', function() {
+			status.volumedown = true;
+		});
+		volumeCtl.addEventListener('touchend', function() {
+			status.volumedown = false;
+		});
+		volumeCtl.addEventListener('touchmove', function(e) {
+			if (status.volumedown) {
+				var x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1;
+				try {
+					songAudio.volume = x / 80;
+				} catch (err) {}
+			}
+		});
+		volumeBtn.addEventListener('click', function() {
+			_this.muted(!_this.muted());
+		});
+		playCtl.addEventListener('click', function() {
+			if (status.playing) {
+				_this.pause();
+			} else {
+				_this.play();
+			}
+		});
+		loopBtn.addEventListener('click', function() {
+			if (_this.loop()) {
+				_this.loop(false);
+			} else {
+				_this.loop(true);
+			}
+		});
 
-			return _this;
-		}
+		songAudio.addEventListener('timeupdate', function() {
+			played.style.width = this.currentTime / this.duration * 100 + "%";
+			current.textContent = formatTime(this.currentTime);
+		});
+		songAudio.addEventListener('progress', function() {
+			try {
+				loaded.style.width = this.buffered.end(this.length - 1) / this.duration * 100 + "%";
+				total.textContent = formatTime(this.duration);
+			} catch (err) {}
+		});
+		songAudio.addEventListener('volumechange', function() {
+			volumeVal.style.width = this.volume * 80 + "px";
+		});
+		songAudio.addEventListener('play', function() {
+			playBtn.classList.add('hidden_bplayer');
+			pauseBtn.classList.remove('hidden_bplayer');
+			total.textContent = formatTime(this.duration);
+			status.playing = true;
+		});
+		songAudio.addEventListener('ended', function() {
+			if (!_this.loop()) {
+				_this.pause();
+			}
+		});
+
+		return _this;
 	};
 
 	var bPlayer = function(config) {
-		if (config) {
-			if (typeof(config.element) !== 'undefined') {
-				var defaults = {
-					src: '',
-					cover: '',
-					title: '',
-					artist: '',
-					color: '#F00',
-					volume: '1',
-					muted: false,
-					autoplay: false,
-					loop: false,
-					slim: false
-				}
-				for (var i in config) {
-					defaults[i] = config[i];
-				}
-				this.attach(defaults.element).autoplay(defaults.autoplay).cover(defaults.cover).title(defaults.title).artist(defaults.artist).color(defaults.color).volume(defaults.volume).slim(defaults.slim).muted(defaults.muted).loop(defaults.loop).src(defaults.src).init();
-				if (defaults.autoplay) {
-					this.play();
-				}
-			} else {
-				throw new Error('[bPlayer] \'element\' is not defined in configuration!');
+		if (!config) return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
+		if (typeof(config.element) !== 'undefined') {
+			var defaults = {
+				src: '',
+				cover: '',
+				title: '',
+				artist: '',
+				color: '#F00',
+				volume: '1',
+				muted: false,
+				autoplay: false,
+				loop: false,
+				slim: false
 			}
+			for (var i in config) {
+				defaults[i] = config[i];
+			}
+			this.attach(defaults.element).autoplay(defaults.autoplay).cover(defaults.cover).title(defaults.title).artist(defaults.artist).color(defaults.color).volume(defaults.volume).slim(defaults.slim).muted(defaults.muted).loop(defaults.loop).src(defaults.src).init();
+			if (defaults.autoplay) {
+				this.play();
+			}
+		} else {
+			throw new Error('[bPlayer] \'element\' is not defined in configuration!');
 		}
-		return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
 	};
 
 	bPlayer.prototype.attach = attach;
