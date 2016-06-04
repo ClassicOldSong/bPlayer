@@ -39,7 +39,6 @@
 		var status = {
 			volumedown: false,
 			progressdown: false,
-			playing: false,
 			slim: false,
 			cover: ''
 		};
@@ -198,7 +197,6 @@
 			songAudio.pause();
 			playBtn.classList.remove('hidden_bplayer');
 			pauseBtn.classList.add('hidden_bplayer');
-			status.playing = false;
 			return _this;
 		};
 		this.init = function() {
@@ -214,8 +212,8 @@
 			}
 			return _this;
 		};
-		this.playing = function() {
-			return status.playing;
+		this.paused = function() {
+			return songAudio.paused;
 		};
 
 		Object.defineProperties(bpElement, {
@@ -299,9 +297,9 @@
 					_this.autoplay(autoplay);
 				}
 			},
-			playing: {
+			paused: {
 				get: function() {
-					return status.playing;
+					return songAudio.paused;
 				}
 			}
 		});
@@ -390,10 +388,10 @@
 			_this.muted(!_this.muted());
 		});
 		playCtl.addEventListener('click', function() {
-			if (status.playing) {
-				_this.pause();
-			} else {
+			if (songAudio.paused) {
 				_this.play();
+			} else {
+				_this.pause();
 			}
 		});
 		loopBtn.addEventListener('click', function() {
@@ -421,7 +419,6 @@
 			playBtn.classList.add('hidden_bplayer');
 			pauseBtn.classList.remove('hidden_bplayer');
 			total.textContent = formatTime(this.duration);
-			status.playing = true;
 		});
 		songAudio.addEventListener('ended', function() {
 			if (!_this.loop()) {
