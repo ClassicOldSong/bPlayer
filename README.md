@@ -1,6 +1,148 @@
 bPlayer
 ========
 
+[Demo](https://classicoldsong.github.io/bPlayer)
+
+bPlayer - A great replacement for audio elements
+
+No need for jQuery, with lots of original audio api maintained, together with title, artists and cover supported. Much more pretty than the browser's default audio player!
+
+Aimed at replacing the default audio player of any modern browser, brining you a united experiance of audio playing.
+
+---
+
+***Very Important!!!***
+------------
+Since v0.2.0-alpha.1, the behavior of bPlayer differs form v0.1.0!! Behavior changed from append to ***replace the attached element directly***！All attributes are maintained and can be accessed as before！
+
+MUST BE CAREFUL WHEN YOU UPDATE!!
+
+Installation
+------------
+
+	git clone https://github.com/classicoldsong/bPlayer.git
+
+or
+
+	npm install bplayer
+
+### Configuration and usage
+
+Include bplayer.js, put an audio element with 'controls' attribute, and it's all done~ Otherwise you can attach to an element manually.
+
+Here's a simple example:
+
+~~~ javascript
+<link rel="stylesheet" href="bplayer.css">
+<script src="bplayer.js"></script>
+<script>
+	window.onload = function(){
+		var bplayer1 = new bPlayer();
+		bplayer.attach("#bp1").color("/*Theme color*/").src("/*Audio URL*/").title("/*Title*/").artist("/*Artist*/").cover("/*Cover URL*/").init();
+		var bp2 = document.querySelector('#bp2')
+		var bplayer2 = new bPlayer({
+			element: bp2,
+			cover: "/*Cover URL*/",
+			title: "/*Title*/",
+			artist: "/*Artist*/",
+			autoplay: false /*Bool, whether play the music when created*/,
+			slim: true, /*Bool, whether enable 'slim mode'*/
+		});
+	}
+</script>
+...
+
+<div id="bp1"></div>
+<div id="bp2"></div>
+<audio src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" aotoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls></audio>
+~~~
+
+When the web page finished loading you will see
+
+~~~ javascript
+<bplayer id="bp1">...</bplayer>
+<bplayer id="bp2">...</bplayer>
+<bplayer src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" aotoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls>...</bplayer>
+~~~
+
+**Notice 1:** *After loaded bPlayer, all audio nodes will be scanned when document finished loading，all audio nodes with 'controls' attribute will be turned into bplayer nodes. All attributes of the original audio node will be maintained, including id, class and style.*
+
+**Notice 2:** *When manually attached an audio node, the original audio element will be used as the audio source, but you still need to set all properties manually except `src`.*
+
+### API
+
+##### Default method
+
+~~~ javascript
+var bplayer = new bPlayer();
+~~~
++ `bplayer.attach([Node]) // Attach to an element, must be excuted in the first place`
++ `bplayer.slim([bool]) // Whether enable 'slim mode'`
++ `bplayer.src([url]) // Set the src to audio source, leave empty will giveback current value`
++ `bplayer.cover([url]) // Set the url of cover, leave empty will giveback current value`
++ `bplayer.title([string]) // Set the title, leave empty will giveback current value`
++ `bplayer.artist([string]) // Set the artist, leave empty will giveback current value`
++ `bplayer.color([color]) // Set the color of progress bar and volme bar, leave empty will giveback current value`
++ `bplayer.volume([number 0 ~ 1]) // Set volume, leave empty will giveback current value`
++ `bplayer.muted([bool]) // Set muted, leave empty will giveback current value`
++ `bplayer.autoplay([bool]) // Set whether play automatically when new audio is loaded, leave empty will giveback current value, if you would like to play immediately after creation, please set this property before 'src'`
++ `bplayer.loop([bool]) // Set whether loop automatically, leave empty will giveback current value`
++ `bplayer.play() // Play`
++ `bplayer.pause() // Pause`
++ `bplayer.init() // Replace the attached element to bPlayer`
++ `bplayer.paused() // Acquire the playing status`
+
+##### Using JSON for creation
+~~~ javascript
+var bplayer = new bPlayer({
+	element: "#bplayer" // CSS selector or node object
+	src: "aaa.mp3", // String
+	title: "Title", // String
+	artist: "artist", // String
+	color: "color", // String
+	volume: 1, // Number, [0~1]
+	muted: false, // Bool
+	autoplay: false, // Bool
+	loop: false, // Bool
+	slim: false // Bool
+});
+~~~
+
+*No need for bplayer.init() when using JSON for creation. Key `element` must exist while others can be left unset*
+
+##### BPLAYER Tag
+As to those elements that have been turned into bplayer, you can still access them just like the original audio element, such as `element.src = 'aaa.mp3'`, supported features are listed below:
++ `element.slim`
++ `element.src`
++ `element.cover`
++ `element.title`
++ `element.artist`
++ `element.color`
++ `element.volume`
++ `element.muted`
++ `element.autoplay`
++ `element.loop`
++ `element.paused`
+
+## TBD
+
+- [ ] ~~Lyric~~ (Abandoned)
+- [ ] ~~Playlist~~ (Abandoned)
+- [ ] Events API
+
+License: MIT
+-------
+
+Any questions or suggestions please submit an Issue or make a PullRequest or contact my E-mail syqlds@126.com
+
+And visiting my blog [Dimension C](http://classicoldsong.me) is also welcomed.
+
+**All copyrights of audios used in DEMO are reserved by original authors**
+
+
+bPlayer
+========
+
 [Demo演示](https://classicoldsong.github.io/bPlayer)
 
 bPlayer - 原生音频播放器的绝佳替代品
@@ -26,7 +168,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 	npm install bplayer
 
-###配置及使用
+### 配置及使用
 
 引入bplayer.js，丢个带controls的audio标签在页面里，然后就搞定了~或者手动绑定元素也可以的说
 
@@ -45,7 +187,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 			cover: "/*专辑封面链接*/",
 			title: "/*歌曲名称*/",
 			artist: "/*艺术家*/",
-			autoplay: "/*自动播放*/",
+			autoplay: false /*Bool, 是否自动播放*/,
 			slim: true, /*Bool, 是否苗条模式*/
 		});
 	}
