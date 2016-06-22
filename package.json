@@ -1,6 +1,6 @@
 {
   "name": "bplayer",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.1",
   "description": "A great replacement for audio elements",
   "main": "bplayer.js",
   "scripts": {
@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/ClassicOldSong/bPlayer/issues"
   },
-  "homepage": "https://github.com/ClassicOldSong/bPlayer#readme"
+  "homepage": "https://github.com/ClassicOldSong/bPlayer#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "uglify-js": "^2.6.3"
+  }
 }

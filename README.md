@@ -91,6 +91,8 @@ var bplayer = new bPlayer();
 + `bplayer.pause() // Pause`
 + `bplayer.init() // Replace the attached element to bPlayer`
 + `bplayer.paused() // Acquire the playing status`
++ `bplayer.addEvent(type, listener[, useCapture]) // Add an event listener to this player`
++ `bplayer.removeEvent(type, listener[, useCapture]) // Remove an event listener from this player`
 
 ##### Using JSON for creation
 ~~~ javascript
@@ -123,12 +125,14 @@ As to those elements that have been turned into bplayer, you can still access th
 + `element.autoplay`
 + `element.loop`
 + `element.paused`
++ `element.addEvent(...)`
++ `element.removeEvent(...)`
 
 ## TBD
 
 - [ ] ~~Lyric~~ (Abandoned)
 - [ ] ~~Playlist~~ (Abandoned)
-- [ ] Events API
+- [x] Events API
 
 License: MIT
 -------
@@ -233,6 +237,8 @@ var bplayer = new bPlayer();
 + `bplayer.pause() // 暂停`
 + `bplayer.init() // 使绑定的元素成为bPlayer`
 + `bplayer.paused() // 获取播放状态`
++ `bplayer.addEvent(type, listener[, useCapture]) // 绑定事件`
++ `bplayer.removeEvent(type, listener[, useCapture]) // 解绑事件`
 
 ##### JSON传入法
 ~~~ javascript
@@ -265,6 +271,8 @@ var bplayer = new bPlayer({
 + `element.autoplay`
 + `element.loop`
 + `element.paused`
++ `element.addEvent(...)`
++ `element.removeEvent(...)`
 
 ## TBD
 

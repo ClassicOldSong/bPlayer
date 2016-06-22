@@ -1,0 +1,18 @@
+# Generated files
+bin/
+gen/
+
+# Log Files
+*.log
+*.log.*
+
+# Temp Files
+*~
+*.*~
+.fuse_*
+cache/
+
+# Project files
+
+# node modules
+node_modules/
