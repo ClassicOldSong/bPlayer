@@ -1,7 +1,7 @@
 bPlayer
 ========
 
-[Demo](https://classicoldsong.github.io/bPlayer)
+[Demo](http://bplayer.js.org)
 
 bPlayer - A great replacement for audio elements
 
