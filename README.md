@@ -1,6 +1,8 @@
 bPlayer
 ========
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/ClassicOldSong/bPlayer/master/LICENSE) [![npm](https://img.shields.io/npm/dt/bplayer.svg?style=flat-square)](https://www.npmjs.com/package/bplayer)
+
 [Demo](http://bplayer.js.org)
 
 bPlayer - A great replacement for audio elements
