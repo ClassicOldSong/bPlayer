@@ -15,7 +15,7 @@ Aimed at replacing the default audio player of any modern browser, brining you a
 
 ***Very Important!!!***
 ------------
-Since v0.2.0-alpha.1, the behavior of bPlayer differs form v0.1.0!! Behavior changed from append to ***replace the attached element directly***！All attributes are maintained and can be accessed as before！
+Since v0.2.0-alpha.1, the behavior of bPlayer differs form v0.1.0!! Behavior changed from append to ***replace the attached element directly***! All attributes are maintained and can be accessed as before!
 
 MUST BE CAREFUL WHEN YOU UPDATE!!
 
@@ -67,7 +67,7 @@ When the web page finished loading you will see
 <bplayer src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" aotoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls>...</bplayer>
 ~~~
 
-**Notice 1:** *After loaded bPlayer, all audio nodes will be scanned when document finished loading，all audio nodes with 'controls' attribute will be turned into bplayer nodes. All attributes of the original audio node will be maintained, including id, class and style.*
+**Notice 1:** *After loaded bPlayer, all audio nodes will be scanned when document finished loading, all audio nodes with 'controls' attribute will be turned into bplayer nodes. All attributes of the original audio node will be maintained, including id, class and style.*
 
 **Notice 2:** *When manually attached an audio node, the original audio element will be used as the audio source, but you still need to set all properties manually except `src`.*
 
