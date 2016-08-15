@@ -56,7 +56,7 @@ Here's a simple example:
 
 <div id="bp1"></div>
 <div id="bp2"></div>
-<audio src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" aotoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls></audio>
+<audio src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" autoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls></audio>
 ~~~
 
 When the web page finished loading you will see
@@ -64,7 +64,7 @@ When the web page finished loading you will see
 ~~~ javascript
 <bplayer id="bp1">...</bplayer>
 <bplayer id="bp2">...</bplayer>
-<bplayer src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" aotoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls>...</bplayer>
+<bplayer src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" autoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls>...</bplayer>
 ~~~
 
 **Notice 1:** *After loaded bPlayer, all audio nodes will be scanned when document finished loading, all audio nodes with 'controls' attribute will be turned into bplayer nodes. All attributes of the original audio node will be maintained, including id, class and style.*
@@ -202,7 +202,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 <div id="bp1"></div>
 <div id="bp2"></div>
-<audio src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" aotoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls></audio>
+<audio src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" autoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls></audio>
 ~~~
 
 页面加载完毕后你看到的是：
@@ -210,7 +210,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 ~~~ javascript
 <bplayer id="bp1">...</bplayer>
 <bplayer id="bp2">...</bplayer>
-<bplayer src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" aotoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls>...</bplayer>
+<bplayer src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" autoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls>...</bplayer>
 ~~~
 
 **注意1：** *引入bPlayer后，会自动在DOM结构加载完成以后扫描页面内的所有audio节点，并将含有controls属性的audio节点转换为bplayer节点。原audio节点的所有attribute保留。*
