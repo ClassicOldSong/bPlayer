@@ -34,7 +34,7 @@ then
 
 or
 
-	import bPlayer from 'bplayer.js';
+	import bPlayer from 'bplayer';
 
 ### Configuration and usage
 
@@ -188,7 +188,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 或者
 
-	import bPlayer from 'bplayer.js';
+	import bPlayer from 'bplayer';
 
 ### 配置及使用
 

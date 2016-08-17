@@ -1,6 +1,6 @@
 {
   "name": "bplayer",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A great replacement for audio elements",
   "main": "bplayer.js",
   "scripts": {
