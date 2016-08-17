@@ -456,29 +456,26 @@
 	};
 
 	var bPlayer = function(config) {
-		if (!config) return ('bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.');
-		if (typeof(config.element) !== 'undefined') {
-			var defaults = {
-				src: '',
-				cover: '',
-				title: '',
-				artist: '',
-				color: '#F00',
-				volume: '1',
-				muted: false,
-				autoplay: false,
-				loop: false,
-				slim: false
-			};
-			for (var i in config) {
-				defaults[i] = config[i];
-			}
-			this.attach(defaults.element).autoplay(defaults.autoplay).cover(defaults.cover).title(defaults.title).artist(defaults.artist).color(defaults.color).volume(defaults.volume).slim(defaults.slim).muted(defaults.muted).loop(defaults.loop).src(defaults.src).init();
-			if (defaults.autoplay) {
-				this.play();
-			}
-		} else {
-			throw new Error('[bPlayer] \'element\' is not defined in configuration!');
+		if (!config) return 'bPlayer - Ver 0.2.0a \n Please use "new" to create a bPlayer element.';
+		if (typeof config.element === 'undefined') throw new Error('[bPlayer] \'element\' is not defined in configuration!');
+		var defaults = {
+			src: '',
+			cover: '',
+			title: '',
+			artist: '',
+			color: '#F00',
+			volume: '1',
+			muted: false,
+			autoplay: false,
+			loop: false,
+			slim: false
+		};
+		for (var i in config) {
+			defaults[i] = config[i];
+		}
+		this.attach(defaults.element).autoplay(defaults.autoplay).cover(defaults.cover).title(defaults.title).artist(defaults.artist).color(defaults.color).volume(defaults.volume).slim(defaults.slim).muted(defaults.muted).loop(defaults.loop).src(defaults.src).init();
+		if (defaults.autoplay) {
+			this.play();
 		}
 	};
 
