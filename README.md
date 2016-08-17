@@ -57,6 +57,7 @@ Here's a simple example:
 			autoplay: false /*Bool, whether play the music when created*/,
 			slim: true, /*Bool, whether enable 'slim mode'*/
 		});
+		bPlayer.scan();
 	}
 </script>
 ...
@@ -211,6 +212,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 			autoplay: false /*Bool, 是否自动播放*/,
 			slim: true, /*Bool, 是否苗条模式*/
 		});
+		bPlayer.scan();
 	}
 </script>
 ...
