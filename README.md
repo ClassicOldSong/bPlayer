@@ -30,7 +30,7 @@ or
 
 ### Configuration and usage
 
-Include bplayer.js, put an audio element with 'controls' attribute, and it's all done~ Otherwise you can attach to an element manually.
+Include bplayer.js, put an audio element with 'controls' attribute, use `bPlayer.scan()` to scan the document after dom content is loaded, and it's all done~ Otherwise you can attach to an element manually.
 
 Here's a simple example:
 
@@ -40,12 +40,12 @@ Here's a simple example:
 <script>
 	window.onload = function(){
 		var bplayer1 = new bPlayer();
-		bplayer.attach("#bp1").color("/*Theme color*/").src("/*Audio URL*/").title("/*Title*/").artist("/*Artist*/").cover("/*Cover URL*/").init();
+		bplayer.attach("#bp1").color("/*Theme color*/").src("/*Audio URL*/").title("/*Title1*/").artist("/*Artist*/").cover("/*Cover URL*/").init();
 		var bp2 = document.querySelector('#bp2')
 		var bplayer2 = new bPlayer({
 			element: bp2,
 			cover: "/*Cover URL*/",
-			title: "/*Title*/",
+			title: "/*Title2*/",
 			artist: "/*Artist*/",
 			autoplay: false /*Bool, whether play the music when created*/,
 			slim: true, /*Bool, whether enable 'slim mode'*/
@@ -56,15 +56,15 @@ Here's a simple example:
 
 <div id="bp1"></div>
 <div id="bp2"></div>
-<audio src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" autoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls></audio>
+<audio src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title3*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" autoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls></audio>
 ~~~
 
 When the web page finished loading you will see
 
 ~~~ javascript
-<bplayer id="bp1">...</bplayer>
-<bplayer id="bp2">...</bplayer>
-<bplayer src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" autoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls>...</bplayer>
+<bplayer title="/*Title1*/" id="bp1">...</bplayer>
+<bplayer title="/*Title2*/" id="bp2">...</bplayer>
+<bplayer title="/*Title3*/" controls>...</bplayer>
 ~~~
 
 **Notice 1:** *After loaded bPlayer, all audio nodes will be scanned when document finished loading, all audio nodes with 'controls' attribute will be turned into bplayer nodes. All attributes of the original audio node will be maintained, including id, class and style.*
@@ -76,6 +76,7 @@ When the web page finished loading you will see
 ##### Default method
 
 ~~~ javascript
+bPlayer.scan(); // Scan the page for 'audio' tags with 'controls' attribute and replace them to bPlayer
 var bplayer = new bPlayer();
 ~~~
 + `bplayer.attach([Node]) // Attach to an element, must be excuted in the first place`
@@ -176,7 +177,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 ### 配置及使用
 
-引入bplayer.js，丢个带controls的audio标签在页面里，然后就搞定了~或者手动绑定元素也可以的说
+引入bplayer.js，丢个带controls的audio标签在页面里，页面加载完毕后使用`bPlayer.scan();`扫描页面，然后就搞定了~或者手动绑定元素也可以的说
 
 下面是一个简单的示例：
 
@@ -186,12 +187,12 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 <script>
 	window.onload = function(){
 		var bplayer1 = new bPlayer();
-		bplayer.attach("#bp1").color("/*进度条颜色*/").src("/*歌曲链接*/").title("/*歌曲名称*/").artist("/*艺术家*/").cover("/*专辑封面链接*/").init();
+		bplayer.attach("#bp1").color("/*进度条颜色*/").src("/*歌曲链接*/").title("/*歌曲名称1*/").artist("/*艺术家*/").cover("/*专辑封面链接*/").init();
 		var bp2 = document.querySelector('#bp2')
 		var bplayer2 = new bPlayer({
 			element: bp2,
 			cover: "/*专辑封面链接*/",
-			title: "/*歌曲名称*/",
+			title: "/*歌曲名称2*/",
 			artist: "/*艺术家*/",
 			autoplay: false /*Bool, 是否自动播放*/,
 			slim: true, /*Bool, 是否苗条模式*/
@@ -202,15 +203,15 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 <div id="bp1"></div>
 <div id="bp2"></div>
-<audio src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" autoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls></audio>
+<audio src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称3*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" autoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls></audio>
 ~~~
 
 页面加载完毕后你看到的是：
 
 ~~~ javascript
-<bplayer id="bp1">...</bplayer>
-<bplayer id="bp2">...</bplayer>
-<bplayer src="/*歌曲链接*/" cover="/*专辑封面链接*/" title="/*歌曲名称*/" artist="/*艺术家*/" color="/*进度条颜色*/" slim="/*是否启用苗条模式*/" autoplay="/*是否自动播放*/" loop="/*是否循环播放*/" controls>...</bplayer>
+<bplayer title="/*歌曲名称1*/" id="bp1">...</bplayer>
+<bplayer title="/*歌曲名称2*/" id="bp2">...</bplayer>
+<bplayer title="/*歌曲名称*/" controls>...</bplayer>
 ~~~
 
 **注意1：** *引入bPlayer后，会自动在DOM结构加载完成以后扫描页面内的所有audio节点，并将含有controls属性的audio节点转换为bplayer节点。原audio节点的所有attribute保留。*
@@ -222,6 +223,7 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 ##### 链式操作法
 
 ~~~ javascript
+bPlayer.scan(); // 扫描页面内带有'controls'属性的'audio'标签并将它们转化为bPlayer
 var bplayer = new bPlayer();
 ~~~
 + `bplayer.attach([Node]) // 绑定元素，必须第一个执行`
@@ -280,7 +282,7 @@ var bplayer = new bPlayer({
 
 - [ ] ~~歌词~~（已放弃，下个播放器见）
 - [ ] ~~播放列表~~（已放弃，下个播放器见）
-- [ ] 原生事件API
+- [x] 原生事件API
 
 许可证：MIT
 -------

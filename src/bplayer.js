@@ -44,7 +44,6 @@
 			cover: ''
 		};
 		var bpElement = document.createElement('bplayer');
-		bpElement.className = 'bPlayer';
 		bpElement.innerHTML = contentHTML;
 
 		var songCover = bpElement.querySelector(".coverimg_bplayer");
@@ -137,6 +136,7 @@
 		};
 		this.title = function(text) {
 			if (text || text === '') {
+				bpElement.setAttribute('title', text);
 				songTitle.textContent = text;
 				return _this;
 			} else {
@@ -220,8 +220,10 @@
 		this.init = function() {
 			if (typeof(bpElement.inited) === 'undefined') {
 				for (var i = 0; i < element.attributes.length; i++) {
+					if (/(src|artist|slim|cover|color|autoplay|loop)/i.test(element.attributes[i].name)) continue;
 					bpElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
 				}
+				bpElement.classList.add('bPlayer');
 				replaceWith(element, bpElement);
 				response.call(bpElement);
 				bpElement.inited = true;
@@ -525,8 +527,6 @@
 		}
 	};
 
-	document.addEventListener('DOMContentLoaded', scan, false);
-	if (document.readyState === "interactive" || document.readyState === "complete") {
-		scan();
-	}
+	bPlayer.scan = scan;
+
 })();
