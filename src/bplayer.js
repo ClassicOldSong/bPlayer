@@ -456,7 +456,7 @@
 	};
 
 	var bPlayer = function(config) {
-		if (!config) return 'bPlayer - Ver 0.2.4 \n Please use "new" to create a bPlayer element.';
+		if (!config) return 'bPlayer - Ver 0.2.5 \n Please use "new" to create a bPlayer element.';
 		if (typeof config.element === 'undefined') throw new Error('[bPlayer] \'element\' is not defined in configuration!');
 		var defaults = {
 			src: '',

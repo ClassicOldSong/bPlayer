@@ -1,8 +1,8 @@
 {
   "name": "bplayer",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A great replacement for audio elements",
-  "main": "bplayer.js",
+  "main": "src/bplayer.js",
   "scripts": {
     "test": "browser-sync start --config bs-config.js"
   },
