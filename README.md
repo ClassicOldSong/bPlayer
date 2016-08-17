@@ -28,6 +28,14 @@ or
 
 	npm install bplayer
 
+then
+
+	<script src="bplayer.js"></script>
+
+or
+
+	import bPlayer from 'bplayer.js';
+
 ### Configuration and usage
 
 Include bplayer.js, put an audio element with 'controls' attribute, use `bPlayer.scan()` to scan the document after dom content is loaded, and it's all done~ Otherwise you can attach to an element manually.
@@ -36,7 +44,6 @@ Here's a simple example:
 
 ~~~ javascript
 <link rel="stylesheet" href="bplayer.css">
-<script src="bplayer.js"></script>
 <script>
 	window.onload = function(){
 		var bplayer1 = new bPlayer();
@@ -175,6 +182,14 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 	npm install bplayer
 
+然后
+
+	<script src="bplayer.js"></script>
+
+或者
+
+	import bPlayer from 'bplayer.js';
+
 ### 配置及使用
 
 引入bplayer.js，丢个带controls的audio标签在页面里，页面加载完毕后使用`bPlayer.scan();`扫描页面，然后就搞定了~或者手动绑定元素也可以的说
@@ -183,7 +198,6 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 
 ~~~ javascript
 <link rel="stylesheet" href="bplayer.css">
-<script src="bplayer.js"></script>
 <script>
 	window.onload = function(){
 		var bplayer1 = new bPlayer();
