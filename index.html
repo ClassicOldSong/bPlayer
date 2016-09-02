@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<meta name="msapplication-tap-highlight" content="no"/>
 	<title>bPlayer - 原生音频播放器的绝佳替代品</title>
-	<link rel="stylesheet" href="dist/bplayer.min.css">
-	<script src="dist/bplayer.min.js"></script>
+	<link rel="stylesheet" href="bplayer.css">
+	<script src="src/bplayer.js"></script>
 	<script>
 		(function() {
 			var init = function() {
@@ -25,6 +25,7 @@
 					cover: "http://p1.music.126.net/oajD4HBRZYlMM1b7NVTlxA==/17816486416670349.jpg?param=30x30",
 					slim: true
 				});
+				bPlayer.scan();
 				window.bp1 = bp1;
 				window.bp2 = bp2;
 				window.bp3 = bp3;
