@@ -527,7 +527,7 @@
 
 	if ( typeof module != 'undefined' && module.exports ) {
 		module.exports = bPlayer;
-	} else if ( typeof define == 'function' && define.amd ) {
+	} else if ( typeof define === 'function' && define.amd ) {
 		define( function () { return bPlayer; } );
 	} else {
 		window.bPlayer = bPlayer;
