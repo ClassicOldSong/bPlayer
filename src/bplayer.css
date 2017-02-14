@@ -1,0 +1,12 @@
+@font-face {
+	font-family: 'iconfont_bplayer';  /* project id 67267 */
+	src: url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.eot');
+	src: url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.eot?#iefix') format('embedded-opentype'),
+	url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.woff') format('woff'),
+	url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.ttf') format('truetype'),
+	url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.svg#iconfont') format('svg');
+}
+
+bplayer {
+	display: block;
+}

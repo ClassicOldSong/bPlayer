@@ -14,12 +14,8 @@ yarn.lock
 cache/
 
 # Project files
+plugins/
+test/
 
 # node modules
 node_modules/
-
-# Audio files
-*.mp3
-
-# Old files
-src/bplayer.old.js

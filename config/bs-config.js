@@ -13,15 +13,12 @@
  |
  */
 module.exports = {
-    "ui": {
-        "port": 3001,
-        "weinre": {
-            "port": 8080
-        }
-    },
-    "files": "*.html, *.js, *.css",
+    "ui": false,
+    "files": "test/index.html",
     "watchOptions": {},
-    "server": true,
+    "server": {
+        baseDir: "./test"
+    },
     "proxy": false,
     "port": 3000,
     "middleware": false,
@@ -43,10 +40,11 @@ module.exports = {
     "rewriteRules": false,
     "open": "local",
     "browser": "default",
+    "cors": false,
     "xip": false,
     "hostnameSuffix": false,
     "reloadOnRestart": false,
-    "notify": true,
+    "notify": false,
     "scrollProportionally": true,
     "scrollThrottle": 0,
     "scrollRestoreTechnique": "window.name",
@@ -54,11 +52,13 @@ module.exports = {
     "scrollElementMapping": [],
     "reloadDelay": 0,
     "reloadDebounce": 0,
+    "reloadThrottle": 0,
     "plugins": [],
     "injectChanges": true,
     "startPath": null,
     "minify": true,
     "host": null,
+    "localOnly": false,
     "codeSync": true,
     "timestamps": true,
     "clientEvents": [

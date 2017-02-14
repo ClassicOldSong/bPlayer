@@ -1,10 +1,10 @@
 @font-face {
-	font-family: 'iconfont_bplayer';
-	src: url('fonts/bPlayer_font.eot'); /* IE9*/
-	src: url('fonts/bPlayer_font.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-	url('fonts/bPlayer_font.woff') format('woff'), /* chrome、firefox */
-	url('fonts/bPlayer_font.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-	url('fonts/bPlayer_font.svg#iconfont') format('svg'); /* iOS 4.1- */
+	font-family: 'iconfont';  /* project id 67267 */
+	src: url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.eot');
+	src: url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.eot?#iefix') format('embedded-opentype'),
+	url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.woff') format('woff'),
+	url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.ttf') format('truetype'),
+	url('//at.alicdn.com/t/font_ksctw5cl4pjy8pvi.svg#iconfont') format('svg');
 }
 
 bplayer {
