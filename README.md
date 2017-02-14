@@ -43,7 +43,6 @@ Include bplayer.js, put an audio element with 'controls' attribute, use `bPlayer
 Here's a simple example:
 
 ~~~ javascript
-<link rel="stylesheet" href="bplayer.css">
 <script>
 	window.onload = function(){
 		var bplayer1 = new bPlayer("#bp1");
@@ -194,7 +193,6 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 下面是一个简单的示例：
 
 ~~~ javascript
-<link rel="stylesheet" href="bplayer.css">
 <script>
 	window.onload = function(){
 		var bplayer1 = new bPlayer("#bp1");
