@@ -145,7 +145,7 @@ License: MIT
 
 Any questions or suggestions please submit an Issue or make a PullRequest or contact my E-mail syqlds@126.com
 
-And visiting my blog [Dimension C](http://classicoldsong.me) is also welcomed.
+And visiting my blog [Dimension C](https://ccoooss.com) is also welcomed.
 
 **All copyrights of audios used in DEMO are reserved by original authors**
 
@@ -296,6 +296,6 @@ var bplayer = new bPlayer({
 
 如有疑问或者建议欢迎提Issue或者PullRequest或者联系我的邮箱 syqlds@126.com
 
-当然也欢迎访问我的博客 [C次元](http://classicoldsong.me)
+当然也欢迎访问我的博客 [C次元](https://ccoooss.com)
 
 **DEMO中使用的音乐版权归原作者所有**
