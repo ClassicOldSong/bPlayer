@@ -3,6 +3,7 @@
   "version": "1.0.0-alpha",
   "description": "A great replacement for audio elements",
   "main": "dist/bplayer.min.js",
+  "module": "src/bplayer.js",
   "scripts": {
     "dev": "node ./build/dev-server.js",
     "build": "node ./build/build.js",
@@ -36,7 +37,6 @@
     "browser-sync": "^2.17.5",
     "eslint": "^3.9.1",
     "git-rev-sync": "^1.8.0",
-    "loglevel": "^1.4.1",
     "node-watch": "^0.4.1",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",

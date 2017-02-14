@@ -12,7 +12,7 @@ const git = require('git-rev-sync')
 const { version } = require('../package.json')
 
 module.exports = {
-	entry: 'src/main.js',
+	entry: 'src/bplayer.js',
 	devDest: 'test/bplayer.dev.js',
 	proDest: 'dist/bplayer.min.js',
 	format: 'iife',

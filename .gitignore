@@ -20,3 +20,6 @@ node_modules/
 
 # Audio files
 *.mp3
+
+# Old files
+src/bplayer.old.js
