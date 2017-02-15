@@ -1,12 +1,10 @@
-/* global VERSION define*/
+/* global VERSION define */
 'use strict'
 
 // Import everything
 import content from './bplayer.html'
-import css from './bplayer.css'
-import { info, warn } from './debug.js'
-
-window.bps = css
+import { warn } from './debug.js'
+import './bplayer.css'
 
 const defaults = {
 	src: '',
@@ -34,35 +32,34 @@ const formatTime = function (sec) {
 	const minutes = Math.floor((sec - (hours * 3600)) / 60)
 	const seconds = Math.floor(sec - (hours * 3600) - (minutes * 60))
 
-	let hs = `${hours}:`
-	let ms = `${minutes}:`
-	let ss = `${seconds}`
+	let hs = ''
+	let ms = ''
+	let ss = ''
 
+	hs = `${hours}:`
+	if (isNaN(minutes)) ms = '00:'
+	else ms = `${minutes}`
+	if (isNaN(seconds)) ss = '00'
+	else ss = `${seconds}`
 	if (hours < 10) hs = `0${hours}:`
 	if (minutes < 10) ms = `0${minutes}:`
 	if (seconds < 10) ss = `0${seconds}`
-	if (hours <= 0) hs = ''
+	if (isNaN(hours) || hours <= 0) hs = ''
 	return `${hs}${ms}${ss}`
 }
 
 const bPlayer = class {
 	constructor(el, data) {
-
-		/* eslint {consistent-this: "off"} */
-		const _this = this
-
+		// Ensure element
 		if (!(el instanceof Element)) el = document.querySelector(el)
 
 		// Check if the element has been turned into bPlayer
 		if (el.bp instanceof bPlayer) return warn('This element has already been attached!')
-
-		// Mark the element incase of attach again
-		el.bp = this
+		Object.defineProperty(el, 'bp' , { value: this })
 
 		const parent = el.parentNode
 
 		Object.defineProperty(this, '_el', { value: document.createElement('bplayer') })
-		this._el.bp = this
 
 		const _response = response.bind(this._el)
 
@@ -72,50 +69,45 @@ const bPlayer = class {
 		this._el.classList.add('bPlayer')
 		this._el.insertAdjacentHTML('afterbegin', content)
 
+		const status = {
+			progressdown: false,
+			volumedown: false
+		}
+
+		// Get all needed elements
+		const els = {
+			cover: this._el.querySelector('.coverimg_bplayer'),
+			progressCtl: this._el.querySelector('.progressctl_bplayer'),
+			volumeCtl: this._el.querySelector('.volumectl_bplayer'),
+			title: this._el.querySelector('.title_bplayer'),
+			artist: this._el.querySelector('.author_bplayer'),
+			played: this._el.querySelector('.played_bplayer'),
+			current: this._el.querySelector('.current_bplayer'),
+			loaded: this._el.querySelector('.loaded_bplayer'),
+			total: this._el.querySelector('.total_bplayer'),
+			volumeVal: this._el.querySelector('.volumeval_bplayer'),
+			playCtl: this._el.querySelector('.cover_bplayer'),
+			volumeBtn: this._el.querySelector('#volumeBtn_bplayer'),
+			loopBtn: this._el.querySelector('#loopBtn_bplayer'),
+			playBtn: this._el.querySelector('#playBtn_bplayer'),
+			pauseBtn: this._el.querySelector('#pauseBtn_bplayer')
+		}
+
 		// Check if the element is an audio tag
 		if (el.tagName.toUpperCase() === 'AUDIO') {
-			Object.defineProperty(this, '_audio', { value: el })
+			els.audio = el
 			el = document.createTextNode('')
-			parent.insertBefore(el, this._audio)
-		} else Object.defineProperty(this, '_audio', { value: new Audio() })
+			parent.insertBefore(el, els.audio)
+		} else els.audio = new Audio()
 
 		// Hide the audio element
-		this._audio.controls = false
+		els.audio.controls = false
 
 		// Attach to DOM
-		this._el.appendChild(this._audio)
+		this._el.appendChild(els.audio)
 		parent.replaceChild(this._el, el)
 		window.addEventListener('resize', _response)
 		_response()
-
-
-		Object.defineProperty(this, '_status', {
-			value: {
-				progressdown: false,
-				volumedown: false
-			}
-		})
-
-		// Get all needed elements
-		Object.defineProperty(this, '_els', {
-			value: {
-				cover: this._el.querySelector('.coverimg_bplayer'),
-				progressCtl: this._el.querySelector('.progressctl_bplayer'),
-				volumeCtl: this._el.querySelector('.volumectl_bplayer'),
-				title: this._el.querySelector('.title_bplayer'),
-				artist: this._el.querySelector('.author_bplayer'),
-				played: this._el.querySelector('.played_bplayer'),
-				current: this._el.querySelector('.current_bplayer'),
-				loaded: this._el.querySelector('.loaded_bplayer'),
-				total: this._el.querySelector('.total_bplayer'),
-				volumeVal: this._el.querySelector('.volumeval_bplayer'),
-				playCtl: this._el.querySelector('.cover_bplayer'),
-				volumeBtn: this._el.querySelector('#volumeBtn_bplayer'),
-				loopBtn: this._el.querySelector('#loopBtn_bplayer'),
-				playBtn: this._el.querySelector('#playBtn_bplayer'),
-				pauseBtn: this._el.querySelector('#pauseBtn_bplayer')
-			}
-		})
 
 		const {
 			progressCtl,
@@ -130,111 +122,109 @@ const bPlayer = class {
 			loopBtn,
 			playBtn,
 			pauseBtn
-		} = this._els
+		} = els
 
 		progressCtl.addEventListener('click', function(e) {
 			const w = this.clientWidth
 			const x = e.offsetX
-			_this._audio.currentTime = x / w * _this._audio.duration
+			els.audio.currentTime = x / w * els.audio.duration
 		})
 		progressCtl.addEventListener('mousedown', () => {
-			_this._status.progressdown = true
+			status.progressdown = true
 		})
 		progressCtl.addEventListener('mouseup', () => {
-			_this._status.progressdown = false
+			status.progressdown = false
 		})
 		progressCtl.addEventListener('mouseout', () => {
-			_this._status.progressdown = false
+			status.progressdown = false
 		})
 		progressCtl.addEventListener('mousemove', function(e) {
-			if (_this._status.progressdown) {
-				let w = this.clientWidth
-				let x = e.offsetX
-				_this._audio.currentTime = x / w * _this._audio.duration
+			if (status.progressdown) {
+				const w = this.clientWidth
+				const x = e.offsetX
+				els.audio.currentTime = x / w * els.audio.duration
 			}
 		})
 		progressCtl.addEventListener('touchstart', () => {
-			_this._status.progressdown = true
+			status.progressdown = true
 		})
 		progressCtl.addEventListener('touchend', () => {
-			_this._status.progressdown = false
+			status.progressdown = false
 		})
 		progressCtl.addEventListener('touchmove', function(e) {
-			if (_this._status.progressdown) {
-				let w = this.clientWidth
-				let x = e.touches[0].pageX - e.target.getBoundingClientRect().left
-				_this._audio.currentTime = x / w * _this._audio.duration
+			if (status.progressdown) {
+				const w = this.clientWidth
+				const x = e.touches[0].pageX - e.target.getBoundingClientRect().left
+				els.audio.currentTime = x / w * els.audio.duration
 			}
 		})
 		volumeCtl.addEventListener('click', (e) => {
-			let x = e.offsetX + 1
-			if (x >= 0) {
-				_this._audio.volume = x / 80
-			}
+			const x = e.offsetX + 1
+			if (x >= 0) els.audio.volume = x / 80
 		})
 		volumeCtl.addEventListener('mousedown', () => {
-			_this._status.volumedown = true
+			status.volumedown = true
 		})
 		volumeCtl.addEventListener('mouseup', () => {
-			_this._status.volumedown = false
+			status.volumedown = false
 		})
 		volumeCtl.addEventListener('mouseout', () => {
-			_this._status.volumedown = false
+			status.volumedown = false
 		})
 		volumeCtl.addEventListener('mousemove', (e) => {
-			if (_this._status.volumedown) {
-				let x = e.offsetX + 1
-				this._audio.volume = x / 80
+			if (status.volumedown) {
+				const x = e.offsetX + 1
+				if (x >= 0) els.audio.volume = x / 80
 			}
 		})
 		volumeCtl.addEventListener('touchstart', () => {
-			_this._status.volumedown = true
+			status.volumedown = true
 		})
 		volumeCtl.addEventListener('touchend', () => {
-			_this._status.volumedown = false
+			status.volumedown = false
 		})
 		volumeCtl.addEventListener('touchmove', (e) => {
-			if (_this._status.volumedown) {
-				let x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1
-				_this._audio.volume = x / 80
+			if (status.volumedown) {
+				const x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1
+				if (x >= 0) els.audio.volume = x / 80
 			}
 		})
 		volumeBtn.addEventListener('click', () => {
-			_this.muted(!_this.muted())
+			this._el.muted = !this._el.muted
 		})
 		playCtl.addEventListener('click', () => {
-			if (this._audio.paused) {
-				_this.play()
+			if (els.audio.paused) {
+				this._el.play()
 			} else {
-				_this.pause()
+				this._el.pause()
 			}
 		})
 		loopBtn.addEventListener('click', () => {
-			_this.loop(!_this.loop())
+			this._el.loop = !this._el.loop
 		})
 
-		_this._audio.addEventListener('timeupdate', function() {
+		els.audio.addEventListener('timeupdate', function() {
 			played.style.width = `${this.currentTime / this.duration * 100}%`
 			current.textContent = formatTime(this.currentTime)
 		})
-		_this._audio.addEventListener('progress', function() {
-			loaded.style.width = `${this.buffered.end(this.length - 1) / this.duration * 100}%`
+		els.audio.addEventListener('progress', function() {
+			if (this.buffered.length === 1) loaded.style.width = `${this.buffered.end(0) / this.duration * 100}%`
 			total.textContent = formatTime(this.duration)
 		})
-		_this._audio.addEventListener('volumechange', function() {
+		els.audio.addEventListener('volumechange', function() {
 			volumeVal.style.width = `${this.volume * 80}px`
 		})
-		_this._audio.addEventListener('play', function() {
+		els.audio.addEventListener('play', function() {
 			playBtn.classList.add('hidden_bplayer')
 			pauseBtn.classList.remove('hidden_bplayer')
 			total.textContent = formatTime(this.duration)
 		})
-		_this._audio.addEventListener('pause', function() {
+		els.audio.addEventListener('pause', function() {
 			playBtn.classList.remove('hidden_bplayer')
 			pauseBtn.classList.add('hidden_bplayer')
 			total.textContent = formatTime(this.duration)
 		})
-		_this._audio.addEventListener('ended', () => {
+		els.audio.addEventListener('ended', () => {
 			if (!this.loop) {
 				this.pause()
 			}
@@ -243,102 +233,134 @@ const bPlayer = class {
 		Object.defineProperties(this._el, {
 			data: {
 				get() {
-					return _this.data()
+					return {
+						src: this.src,
+						cover: this.cover,
+						title: this.title,
+						artist: this.artist,
+						color: this.color,
+						slim: this.slim,
+						volume: this.volume,
+						muted: this.muted
+					}
 				},
 				set(data) {
-					_this.data(data)
+					for (let i in defaults) {
+						if (data[i] !== null && typeof data[i] !== 'undefined') {
+							this[i] = data[i]
+						}
+					}
 				}
 			},
 			slim: {
 				get() {
-					return _this.slim()
+					return this.className.split(' ').indexOf('slim_bPlayer') !== -1
 				},
 				set(slim) {
-					_this.slim(slim)
+					slim = !!slim
+					if (slim) this.classList.add('slim_bPlayer')
+					else this.classList.remove('slim_bPlayer')
 				}
 			},
 			src: {
 				get() {
-					return _this.src()
+					return els.audio.src
 				},
 				set(src) {
-					_this.src(src)
+					els.audio.src = src
 				}
 			},
 			cover: {
 				get() {
-					return _this.cover()
+					return els.cover.style.backgroundImage.split('")')[0].split('url("')[1]
 				},
 				set(cover) {
-					_this.cover(cover)
+					els.cover.style.backgroundImage = `url("${cover}")`
 				}
 			},
 			title: {
 				get() {
-					return _this.title()
+					return els.title.textContent
 				},
 				set(title) {
-					_this.title(title)
+					els.title.textContent = title
 				}
 			},
 			artist: {
 				get() {
-					return _this.artist()
+					return els.artist.textContent
 				},
 				set(artist) {
-					_this.artist(artist)
+					els.artist.textContent = artist
 				}
 			},
 			color: {
 				get() {
-					return _this.color()
+					return els.played.style.backgroundColor
 				},
 				set(color) {
-					_this.color(color)
+					els.played.style.backgroundColor = color
+					els.volumeVal.style.backgroundColor = color
 				}
 			},
 			volume: {
 				get() {
-					return _this.volume()
+					return els.audio.volume
 				},
 				set(volume) {
-					_this.volume(volume)
+					els.audio.volume = volume
 				}
 			},
 			muted: {
 				get() {
-					return _this.muted()
+					return els.audio.muted
 				},
 				set(muted) {
-					_this.muted(muted)
+					muted = !!muted
+					els.audio.muted = muted
+					if (muted) els.volumeBtn.classList.add('disabled_bplayer')
+					else els.volumeBtn.classList.remove('disabled_bplayer')
 				}
 			},
 			loop: {
 				get() {
-					return _this.loop()
+					return els.audio.loop
 				},
 				set(loop) {
-					_this.loop(loop)
+					loop = !!loop
+					els.audio.loop = loop
+					if (loop) els.loopBtn.classList.remove('disabled_bplayer')
+					else els.loopBtn.classList.add('disabled_bplayer')
 				}
 			},
 			autoplay: {
 				get() {
-					return _this.autoplay()
+					return els.audio.autoplay
 				},
 				set(autoplay) {
-					_this.autoplay(autoplay)
+					autoplay = !!autoplay
+					els.audio.autoplay = autoplay
 				}
 			},
 			paused: {
 				get() {
-					return _this._audio.paused
+					return els.audio.paused
 				}
 			},
 			addListener: {
-				value: _this.addListener
+				value: (type, fn) => els.audio.addEventListener(type, fn, false)
 			},
 			removeListener: {
-				value: _this.removeListener
+				value: (type, fn) => els.audio.removeEventListener(type, fn, false)
+			},
+			play: {
+				value: els.audio.play.bind(els.audio)
+			},
+			pause: {
+				value: els.audio.pause.bind(els.audio)
+			},
+			bp: {
+				value: this
 			}
 		})
 
@@ -352,136 +374,117 @@ const bPlayer = class {
 
 	data(data) {
 		if (typeof data !== 'undefined') {
-			for (let i in defaults) {
-				if (data[i] !== null && typeof data[i] !== 'undefined') {
-					this[i](data[i])
-				}
-			}
+			this._el.data = data
 			return this
 		}
-		return {
-			src: this.src(),
-			cover: this.cover(),
-			title: this.title(),
-			artist: this.artist(),
-			color: this.color(),
-			slim: this.slim(),
-			volume: this.volume(),
-			muted: this.muted()
-		}
-	}
-
-	src(src) {
-		if (typeof src !== 'undefined') {
-			this._audio.src = src
-			return this
-		}
-		return this._audio.src
-	}
-
-	cover(cover) {
-		if (typeof cover !== 'undefined') {
-			this._els.cover.style.backgroundImage = `url("${cover}")`
-			return this
-		}
-		return this._els.cover.style.backgroundImage.split('")')[0].split('url("')[1]
-	}
-
-	title(title) {
-		if (typeof title !== 'undefined') {
-			this._els.title.textContent = title
-			return this
-		}
-		return this._els.title.textContent
-	}
-
-	artist(artist) {
-		if (typeof artist !== 'undefined') {
-			this._els.artist.textContent = artist
-			return this
-		}
-		return this._els.artist.textContent
-	}
-
-	color(color) {
-		if (typeof color !== 'undefined') {
-			this._els.played.style.backgroundColor = color
-			this._els.volumeVal.style.backgroundColor = color
-			return this
-		}
-		return this._els.played.style.backgroundColor
+		return this._el.data
 	}
 
 	slim(slim) {
 		if (typeof slim !== 'undefined') {
-			slim = !!slim
-			if (slim) this._el.classList.add('slim_bPlayer')
-			else this._el.classList.remove('slim_bPlayer')
+			this._el.slim = slim
 			return this
 		}
-		return this._el.className.split(' ').indexOf('slim_bPlayer') !== -1
+		return this._el.slim
 	}
 
-	muted(muted) {
-		if (typeof muted !== 'undefined') {
-			muted = !!muted
-			this._audio.muted = muted
-			if (muted) this._els.volumeBtn.classList.add('disabled_bplayer')
-			else this._els.volumeBtn.classList.remove('disabled_bplayer')
+	src(src) {
+		if (typeof src !== 'undefined') {
+			this._el.src = src
 			return this
 		}
-		return this._audio.muted
+		return this._el.src
+	}
+
+	cover(cover) {
+		if (typeof cover !== 'undefined') {
+			this._el.cover = cover
+			return this
+		}
+		return this._el.cover
+	}
+
+	title(title) {
+		if (typeof title !== 'undefined') {
+			this._el.title = title
+			return this
+		}
+		return this._el.title
+	}
+
+	artist(artist) {
+		if (typeof artist !== 'undefined') {
+			this._el.artist = artist
+			return this
+		}
+		return this._el.artist
+	}
+
+	color(color) {
+		if (typeof color !== 'undefined') {
+			this._el.color = color
+			return this
+		}
+		return this._el.color
 	}
 
 	volume(volume) {
 		if (typeof volume !== 'undefined') {
-			this._audio.volume = volume
+			this._el.volume = volume
 			return this
 		}
-		return this._audio.volume
+		return this._el.volume
+	}
+
+	muted(muted) {
+		if (typeof muted !== 'undefined') {
+			this._el.muted = muted
+			return this
+		}
+		return this._el.muted
 	}
 
 	loop(loop) {
 		if (typeof loop !== 'undefined') {
-			loop = !!loop
-			this._audio.loop = loop
-			if (loop) this._els.loopBtn.classList.remove('disabled_bplayer')
-			else this._els.loopBtn.classList.add('disabled_bplayer')
+			this._el.loop = loop
 			return this
 		}
-		return this._audio.loop
+		return this._el.loop
 	}
 
 	autoplay(autoplay) {
 		if (typeof autoplay !== 'undefined') {
-			autoplay = !!autoplay
-			this._audio.autoplay = autoplay
+			this._el.autoplay = autoplay
 			return this
 		}
-		return this._audio.autoplay
+		return this._el.autoplay
 	}
 
 	get paused() {
-		return this._audio.paused
+		return this._el.paused
 	}
 
-	addListener(type, fn) {
-		this._audio.addEventListener(type, fn, false)
+	addListener(...args) {
+		this._el.addListener(...args)
 		return this
 	}
 
-	removeListener(type, fn) {
-		this._audio.removeEventListener(type, fn, false)
+	removeListener(...args) {
+		this._el.removeListener(...args)
 		return this
 	}
 
 	play() {
-		this._audio.play()
+		this._el.play()
 		return this
 	}
 
 	pause() {
-		this._audio.pause()
+		this._el.pause()
+		return this
+	}
+
+	get bp() {
 		return this
 	}
 
@@ -490,22 +493,24 @@ const bPlayer = class {
 	static scan() {
 
 		/* eslint {no-new: "off"} */
-		const audioList = document.querySelectorAll('audio')
+		const audioList = document.querySelectorAll('audio[controls="bplayer"]')
 		for (let i = 0; i < audioList.length; i++) {
-			if (audioList[i].getAttribute('controls') === 'bplayer') {
-				const data = {
-					src: audioList[i].src,
-					loop: audioList[i].loop,
-					title: audioList[i].title,
-					autoplay: audioList[i].autoplay,
-					slim: JSON.parse(audioList[i].getAttribute('slim')),
-					cover: audioList[i].getAttribute('cover'),
-					color: audioList[i].getAttribute('color'),
-					artist: audioList[i].getAttribute('artist')
-				}
-				new bPlayer(audioList[i], data)
+			const data = {
+				src: audioList[i].src,
+				loop: audioList[i].loop,
+				title: audioList[i].title,
+				autoplay: audioList[i].autoplay,
+				slim: JSON.parse(audioList[i].getAttribute('slim')),
+				cover: audioList[i].getAttribute('cover'),
+				color: audioList[i].getAttribute('color'),
+				artist: audioList[i].getAttribute('artist')
 			}
+			new bPlayer(audioList[i], data)
 		}
+	}
+
+	static get version() {
+		return VERSION
 	}
 }
 
@@ -517,5 +522,24 @@ if (typeof module !== 'undefined' && module.exports) {
 	window.bPlayer = bPlayer
 }
 
+// Set style for info
+const ls1 = `
+background-color: #A91212;
+font-weight: bold;
+color: #FFF;
+font-size: 20px;
+`
+const ls2 = `
+background-color: #531212;
+font-weight: bold;
+color: #FEDCBA;
+font-size: 20px;
+`
+const ls3 = `
+background-color: #000;
+font-weight: bold;
+color: #FEDCBA;
+font-size: 12px;
+`
 // Show information when bPlayer loaded successfully.
-info(`bPlayer v${VERSION} loaded!`)
+console.log(`%c bPlayer %c v${VERSION} \n%c See http://bplayer.js.org for detail. `, ls1, ls2, ls3)

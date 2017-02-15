@@ -1,6 +1,6 @@
 {
   "name": "bplayer",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
   "description": "A great replacement for audio elements",
   "main": "dist/bplayer.min.js",
   "module": "src/bplayer.js",
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/ClassicOldSong/bPlayer/issues"
   },
-  "homepage": "https://github.com/ClassicOldSong/bPlayer#readme",
+  "homepage": "http://bplayer.js.org",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-plugin-closure-elimination": "^1.1.14",
