@@ -65,7 +65,7 @@ Here's a simple example:
 <audio src="/*Audio URL*/" cover="/*Cover URL*/" title="/*Title3*/" artist="/*Artist*/" color="/*Theme color*/" slim="/*Whether enable 'slim mode'*/" autoplay="/*Whether play the music when created*/" loop="/*Whether enable loop*/" controls="bplayer"></audio>
 ~~~
 
-When the web page finished loading you will see
+When the web page finished loading you will see:
 
 ~~~ javascript
 <bplayer title="/*Title1*/" id="bp1">...</bplayer>
@@ -82,9 +82,11 @@ When the web page finished loading you will see
 ##### Default method
 
 ~~~ javascript
+bPlayer.version; // Get the version of bPlayer
 bPlayer.scan(); // Scan the page for 'audio' tags with 'controls' attribute and replace them to bPlayer
 var bplayer = new bPlayer([Node]);
 ~~~
++ `bplayer.data([JSON]) // Set ALL options of the player, leave empty will givebackJSON data which describes the music`
 + `bplayer.slim([bool]) // Whether enable 'slim mode'`
 + `bplayer.src([url]) // Set the src to audio source, leave empty will giveback current value`
 + `bplayer.cover([url]) // Set the url of cover, leave empty will giveback current value`
@@ -98,12 +100,12 @@ var bplayer = new bPlayer([Node]);
 + `bplayer.play() // Play`
 + `bplayer.pause() // Pause`
 + `bplayer.paused() // Acquire the playing status`
-+ `bplayer.addEvent(type, listener[, useCapture]) // Add an event listener to this player`
-+ `bplayer.removeEvent(type, listener[, useCapture]) // Remove an event listener from this player`
++ `bplayer.addListener(type, listener[, useCapture]) // Add an event listener to this player`
++ `bplayer.removeListener(type, listener[, useCapture]) // Remove an event listener from this player`
 
 ##### Using JSON for creation
 ~~~ javascript
-var bplayer = new bPlayer("#bplayer // CSS selector or node object", {
+var bplayer = new bPlayer("#bplayer"/* CSS selector or node object */, {
 	src: "aaa.mp3", // String
 	title: "Title", // String
 	artist: "artist", // String
@@ -120,6 +122,10 @@ var bplayer = new bPlayer("#bplayer // CSS selector or node object", {
 
 ##### BPLAYER Tag
 As to those elements that have been turned into bplayer, you can still access them just like the original audio element, such as `element.src = 'aaa.mp3'`, supported features are listed below:
++ `element.bp` Get bplayer object of this element
++ `element.play()`
++ `element.pause()`
++ `element.data`
 + `element.slim`
 + `element.src`
 + `element.cover`
@@ -232,9 +238,11 @@ bPlayer 自 v0.2.0-alpha.1 起，行为与 v0.1.0 时不同！！由原先的app
 ##### 链式操作法
 
 ~~~ javascript
+bPlayer.version; // 获取bPlayer版本
 bPlayer.scan(); // 扫描页面内带有'controls'属性的'audio'标签并将它们转化为bPlayer
 var bplayer = new bPlayer([Node]);
 ~~~
++ `bplayer.data([JSON]) // 通过JSON刷新所有选项，留空返回当前歌曲信息`
 + `bplayer.slim([bool]) // 设定是否开启苗条模式`
 + `bplayer.src([url]) // 设定歌曲链接，留空返回当前值`
 + `bplayer.cover([url]) // 设定封面链接，留空返回当前值`
@@ -248,8 +256,8 @@ var bplayer = new bPlayer([Node]);
 + `bplayer.play() // 播放`
 + `bplayer.pause() // 暂停`
 + `bplayer.paused() // 获取播放状态`
-+ `bplayer.addEvent(type, listener[, useCapture]) // 绑定事件`
-+ `bplayer.removeEvent(type, listener[, useCapture]) // 解绑事件`
++ `bplayer.addListener(type, listener[, useCapture]) // 绑定事件`
++ `bplayer.removeListener(type, listener[, useCapture]) // 解绑事件`
 
 ##### JSON传入法
 ~~~ javascript
@@ -271,6 +279,10 @@ var bplayer = new bPlayer({
 
 ##### BPLAYER标签
 对于已经被attach的元素，可以直接在元素上操作，操作方式与原生audio大同小异，比如`element.src = 'aaa.mp3'`，目前支持的有：
++ `element.bp` 获取当前元素的bPlayer对象
++ `element.play()`
++ `element.pause()`
++ `element.data`
 + `element.slim`
 + `element.src`
 + `element.cover`
@@ -282,8 +294,8 @@ var bplayer = new bPlayer({
 + `element.autoplay`
 + `element.loop`
 + `element.paused`
-+ `element.addEvent(...)`
-+ `element.removeEvent(...)`
++ `element.addListener(...)`
++ `element.removeListener(...)`
 
 ## TBD
 
