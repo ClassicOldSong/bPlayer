@@ -1,12 +1,10 @@
-/* global VERSION define*/
+/* global VERSION define */
 'use strict'
 
 // Import everything
 import content from './bplayer.html'
-import css from './bplayer.css'
-import { info, warn } from './debug.js'
-
-window.bps = css
+import { warn } from './debug.js'
+import './bplayer.css'
 
 const defaults = {
 	src: '',
@@ -34,14 +32,19 @@ const formatTime = function (sec) {
 	const minutes = Math.floor((sec - (hours * 3600)) / 60)
 	const seconds = Math.floor(sec - (hours * 3600) - (minutes * 60))
 
-	let hs = `${hours}:`
-	let ms = `${minutes}:`
-	let ss = `${seconds}`
+	let hs = ''
+	let ms = ''
+	let ss = ''
 
+	hs = `${hours}:`
+	if (isNaN(minutes)) ms = '00:'
+	else ms = `${minutes}`
+	if (isNaN(seconds)) ss = '00'
+	else ss = `${seconds}`
 	if (hours < 10) hs = `0${hours}:`
 	if (minutes < 10) ms = `0${minutes}:`
 	if (seconds < 10) ss = `0${seconds}`
-	if (hours <= 0) hs = ''
+	if (isNaN(hours) || hours <= 0) hs = ''
 	return `${hs}${ms}${ss}`
 }
 
@@ -50,19 +53,16 @@ const bPlayer = class {
 
 		/* eslint {consistent-this: "off"} */
 		const _this = this
-
 		if (!(el instanceof Element)) el = document.querySelector(el)
 
 		// Check if the element has been turned into bPlayer
 		if (el.bp instanceof bPlayer) return warn('This element has already been attached!')
-
-		// Mark the element incase of attach again
-		el.bp = this
+		Object.defineProperty(el, 'bp' , { value: this })
 
 		const parent = el.parentNode
 
 		Object.defineProperty(this, '_el', { value: document.createElement('bplayer') })
-		this._el.bp = this
+		Object.defineProperty(this._el, 'bp' , { value: this })
 
 		const _response = response.bind(this._el)
 
@@ -88,13 +88,10 @@ const bPlayer = class {
 		window.addEventListener('resize', _response)
 		_response()
 
-
-		Object.defineProperty(this, '_status', {
-			value: {
-				progressdown: false,
-				volumedown: false
-			}
-		})
+		const status = {
+			progressdown: false,
+			volumedown: false
+		}
 
 		// Get all needed elements
 		Object.defineProperty(this, '_els', {
@@ -138,29 +135,29 @@ const bPlayer = class {
 			_this._audio.currentTime = x / w * _this._audio.duration
 		})
 		progressCtl.addEventListener('mousedown', () => {
-			_this._status.progressdown = true
+			status.progressdown = true
 		})
 		progressCtl.addEventListener('mouseup', () => {
-			_this._status.progressdown = false
+			status.progressdown = false
 		})
 		progressCtl.addEventListener('mouseout', () => {
-			_this._status.progressdown = false
+			status.progressdown = false
 		})
 		progressCtl.addEventListener('mousemove', function(e) {
-			if (_this._status.progressdown) {
+			if (status.progressdown) {
 				let w = this.clientWidth
 				let x = e.offsetX
 				_this._audio.currentTime = x / w * _this._audio.duration
 			}
 		})
 		progressCtl.addEventListener('touchstart', () => {
-			_this._status.progressdown = true
+			status.progressdown = true
 		})
 		progressCtl.addEventListener('touchend', () => {
-			_this._status.progressdown = false
+			status.progressdown = false
 		})
 		progressCtl.addEventListener('touchmove', function(e) {
-			if (_this._status.progressdown) {
+			if (status.progressdown) {
 				let w = this.clientWidth
 				let x = e.touches[0].pageX - e.target.getBoundingClientRect().left
 				_this._audio.currentTime = x / w * _this._audio.duration
@@ -173,28 +170,28 @@ const bPlayer = class {
 			}
 		})
 		volumeCtl.addEventListener('mousedown', () => {
-			_this._status.volumedown = true
+			status.volumedown = true
 		})
 		volumeCtl.addEventListener('mouseup', () => {
-			_this._status.volumedown = false
+			status.volumedown = false
 		})
 		volumeCtl.addEventListener('mouseout', () => {
-			_this._status.volumedown = false
+			status.volumedown = false
 		})
 		volumeCtl.addEventListener('mousemove', (e) => {
-			if (_this._status.volumedown) {
+			if (status.volumedown) {
 				let x = e.offsetX + 1
 				this._audio.volume = x / 80
 			}
 		})
 		volumeCtl.addEventListener('touchstart', () => {
-			_this._status.volumedown = true
+			status.volumedown = true
 		})
 		volumeCtl.addEventListener('touchend', () => {
-			_this._status.volumedown = false
+			status.volumedown = false
 		})
 		volumeCtl.addEventListener('touchmove', (e) => {
-			if (_this._status.volumedown) {
+			if (status.volumedown) {
 				let x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1
 				_this._audio.volume = x / 80
 			}
@@ -218,7 +215,7 @@ const bPlayer = class {
 			current.textContent = formatTime(this.currentTime)
 		})
 		_this._audio.addEventListener('progress', function() {
-			loaded.style.width = `${this.buffered.end(this.length - 1) / this.duration * 100}%`
+			if (this.buffered.length === 1) loaded.style.width = `${this.buffered.end(0) / this.duration * 100}%`
 			total.textContent = formatTime(this.duration)
 		})
 		_this._audio.addEventListener('volumechange', function() {
@@ -517,5 +514,24 @@ if (typeof module !== 'undefined' && module.exports) {
 	window.bPlayer = bPlayer
 }
 
+// Set style for info
+const ls1 = `
+background-color: #A91212;
+font-weight: bold;
+color: #FFF;
+font-size: 20px;
+`
+const ls2 = `
+background-color: #C61212;
+font-weight: bold;
+color: #FFF;
+font-size: 20px;
+`
+const ls3 = `
+background-color: #000;
+font-weight: bold;
+color: #FEDCBA;
+font-size: 12px;
+`
 // Show information when bPlayer loaded successfully.
-info(`bPlayer v${VERSION} loaded!`)
+console.log(`%c bPlayer %c v${VERSION} \n%c See http://bplayer.js.org for detail. `, ls1, ls2, ls3)
