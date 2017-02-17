@@ -159,7 +159,7 @@ const bPlayer = class {
 			}
 		})
 		volumeCtl.addEventListener('click', (e) => {
-			const x = e.offsetX + 1
+			const x = e.offsetX
 			if (x >= 0 && x <= 80) els.audio.volume = x / 80
 		})
 		volumeCtl.addEventListener('mousedown', () => {
@@ -173,7 +173,7 @@ const bPlayer = class {
 		})
 		volumeCtl.addEventListener('mousemove', (e) => {
 			if (status.volumedown) {
-				const x = e.offsetX + 1
+				const x = e.offsetX
 				if (x >= 0 && x <= 80) els.audio.volume = x / 80
 			}
 		})
@@ -185,7 +185,7 @@ const bPlayer = class {
 		})
 		volumeCtl.addEventListener('touchmove', (e) => {
 			if (status.volumedown) {
-				const x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1
+				const x = e.touches[0].pageX - e.target.getBoundingClientRect().left
 				if (x >= 0 && x <= 80) els.audio.volume = x / 80
 			}
 		})
