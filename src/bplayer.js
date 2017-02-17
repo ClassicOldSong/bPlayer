@@ -127,7 +127,7 @@ const bPlayer = class {
 		progressCtl.addEventListener('click', function(e) {
 			const w = this.clientWidth
 			const x = e.offsetX
-			els.audio.currentTime = x / w * els.audio.duration
+			if (x >= 0 && x <= w) els.audio.currentTime = x / w * els.audio.duration
 		})
 		progressCtl.addEventListener('mousedown', () => {
 			status.progressdown = true
@@ -142,7 +142,7 @@ const bPlayer = class {
 			if (status.progressdown) {
 				const w = this.clientWidth
 				const x = e.offsetX
-				els.audio.currentTime = x / w * els.audio.duration
+				if (x >= 0 && x <= w) els.audio.currentTime = x / w * els.audio.duration
 			}
 		})
 		progressCtl.addEventListener('touchstart', () => {
@@ -155,12 +155,12 @@ const bPlayer = class {
 			if (status.progressdown) {
 				const w = this.clientWidth
 				const x = e.touches[0].pageX - e.target.getBoundingClientRect().left
-				els.audio.currentTime = x / w * els.audio.duration
+				if (x >= 0 && x <= w) els.audio.currentTime = x / w * els.audio.duration
 			}
 		})
 		volumeCtl.addEventListener('click', (e) => {
 			const x = e.offsetX + 1
-			if (x >= 0) els.audio.volume = x / 80
+			if (x >= 0 && x <= 80) els.audio.volume = x / 80
 		})
 		volumeCtl.addEventListener('mousedown', () => {
 			status.volumedown = true
@@ -174,7 +174,7 @@ const bPlayer = class {
 		volumeCtl.addEventListener('mousemove', (e) => {
 			if (status.volumedown) {
 				const x = e.offsetX + 1
-				if (x >= 0) els.audio.volume = x / 80
+				if (x >= 0 && x <= 80) els.audio.volume = x / 80
 			}
 		})
 		volumeCtl.addEventListener('touchstart', () => {
@@ -186,7 +186,7 @@ const bPlayer = class {
 		volumeCtl.addEventListener('touchmove', (e) => {
 			if (status.volumedown) {
 				const x = e.touches[0].pageX - e.target.getBoundingClientRect().left + 1
-				if (x >= 0) els.audio.volume = x / 80
+				if (x >= 0 && x <= 80) els.audio.volume = x / 80
 			}
 		})
 		volumeBtn.addEventListener('click', () => {
