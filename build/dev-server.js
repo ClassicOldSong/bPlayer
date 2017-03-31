@@ -3,6 +3,7 @@ console.log('[RD]', 'Build starting...')
 const rollup = require('rollup').rollup
 const watch = require('node-watch')
 const {
+	moduleName,
 	entry,
 	devDest: dest,
 	format,
@@ -18,7 +19,7 @@ let cache = {}
 const bundleWrite = (bundle) => {
 	console.log('[RD]', 'Writing bundle...')
 	cache = bundle
-	bundle.write({ dest, format, sourceMap })
+	bundle.write({ dest, moduleName, format, sourceMap })
 }
 
 const startWatch = () => {

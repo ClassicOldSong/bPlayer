@@ -5,6 +5,7 @@ env.NODE_ENV = 'production'
 
 const rollup = require('rollup').rollup
 const {
+	moduleName,
 	entry,
 	proDest: dest,
 	format,
@@ -19,6 +20,6 @@ rollup({
 })
 .then((bundle) => {
 	console.log('Writing bundle...')
-	bundle.write({ dest, format })
+	bundle.write({ dest, moduleName, format })
 })
 .then(() => console.log('Build successful!'))

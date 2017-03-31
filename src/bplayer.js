@@ -1,4 +1,4 @@
-/* global VERSION define */
+/* global VERSION */
 'use strict'
 
 // Import everything
@@ -514,13 +514,7 @@ const bPlayer = class {
 	}
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-	module.exports = bPlayer
-} else if (typeof define === 'function' && define.amd) {
-	define(() => bPlayer)
-} else {
-	window.bPlayer = bPlayer
-}
+export default bPlayer
 
 // Set style for info
 const ls1 = `

@@ -1,5 +1,5 @@
 // Rollup plugins
-const babel = require('rollup-plugin-babel')
+const buble = require('rollup-plugin-buble')
 const eslint = require('rollup-plugin-eslint')
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
@@ -12,10 +12,11 @@ const git = require('git-rev-sync')
 const { version } = require('../package.json')
 
 module.exports = {
+	moduleName: 'bPlayer',
 	entry: 'src/bplayer.js',
 	devDest: 'test/bplayer.dev.js',
 	proDest: 'dist/bplayer.min.js',
-	format: 'iife',
+	format: 'umd',
 	sourceMap: 'inline',
 	plugins: [
 		progress({
@@ -34,9 +35,12 @@ module.exports = {
 		eslint({
 			exclude: ['**/*.html', '**/*.css']
 		}),
-		babel({
-			exclude: 'node_modules/**',
-			runtimeHelpers: true
+		buble({
+			transforms: {
+				modules: false,
+				dangerousForOf: true
+			},
+			objedtAssign: 'Object.assign'
 		}),
 		replace({
 			ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
