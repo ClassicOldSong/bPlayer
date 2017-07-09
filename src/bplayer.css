@@ -27,7 +27,6 @@ bplayer {
 .bPlayer {
 	box-sizing: border-box;
 	position: relative;
-	overflow: hidden;
 	font-family:
 		Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", STXihei, STHeiti, Heiti, SimSun, sans-serif;
 	width: 100%;
@@ -88,6 +87,7 @@ bplayer {
 }
 
 .info_bplayer {
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -156,6 +156,7 @@ bplayer {
 	height: 100%;
 	width: 0;
 	background-color: #A91212;
+	box-shadow: #A91212 0px 0px 3px;
 	transition: width 100ms linear;
 }
 .progressctl_bplayer {
@@ -190,7 +191,7 @@ bplayer {
 }
 .volume_bplayer:hover {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-	width: 105px;
+	width: 108px;
 }
 .volumebtn_bplayer {
 	float: right;
@@ -201,7 +202,7 @@ bplayer {
 	top: 0;
 	right: 20px;
 	height: 20px;
-	width: 85px;
+	width: 88px;
 }
 .volumebg_bplayer {
 	position: absolute;
@@ -220,6 +221,7 @@ bplayer {
 	margin: 8px 0 8px 5px;
 	height: 4px;
 	background-color: #A91212;
+	box-shadow: #A91212 0px 0px 3px;
 }
 .volumectl_bplayer {
 	position: absolute;
@@ -227,6 +229,7 @@ bplayer {
 	left: 0;
 	width: 80px;
 	margin-left: 5px;
+	padding-right: 3px;
 	height: 20px;
 }
 

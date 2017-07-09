@@ -299,8 +299,11 @@ const bPlayer = class {
 					return els.played.style.backgroundColor
 				},
 				set(color) {
+					const shadow = `${color} 0px 0px 3px`
 					els.played.style.backgroundColor = color
+					els.played.style.boxShadow = shadow
 					els.volumeVal.style.backgroundColor = color
+					els.volumeVal.style.boxShadow = shadow
 				}
 			},
 			volume: {
