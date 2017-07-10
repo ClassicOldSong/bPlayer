@@ -208,7 +208,8 @@ const bPlayer = class {
 			current.textContent = formatTime(this.currentTime)
 		})
 		els.audio.addEventListener('progress', function() {
-			if (this.buffered.length === 1) loaded.style.width = `${this.buffered.end(0) / this.duration * 100}%`
+			const bufferedLength = this.buffered.length
+			if (bufferedLength >= 1) loaded.style.width = `${this.buffered.end(bufferedLength - 1) / this.duration * 100}%`
 			total.textContent = formatTime(this.duration)
 		})
 		els.audio.addEventListener('volumechange', function() {

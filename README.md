@@ -7,7 +7,7 @@ bPlayer
 
 bPlayer - A great replacement for audio elements
 
-No need for jQuery, with lots of original audio api maintained, together with title, artists and cover supported. Much more pretty than the browser's default audio player!
+No need for jQuery, with lots of original audio api maintained, together with title, artists and cover supported in addition. Much more pretty than the browser's default audio player!
 
 Aimed at replacing the default audio player of any modern browser, brining you a united experience of audio playing.
 
