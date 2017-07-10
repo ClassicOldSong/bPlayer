@@ -35,6 +35,7 @@ bplayer {
 	cursor: default;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	color: #000;
+	text-shadow: rgba(0, 0, 0, 0.15) 0px 0px 2px;
 }
 
 .cover_bplayer {
@@ -78,6 +79,7 @@ bplayer {
 	opacity: 0;
 	display: block;
 	transition: opacity 500ms;
+	text-shadow: #FFF 0px 0px 2px;
 }
 .controlbtn_bplayer.playBtn_bplayer {
 	opacity: 0.8;
@@ -191,7 +193,7 @@ bplayer {
 }
 .volume_bplayer:hover {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-	width: 108px;
+	width: 109px;
 }
 .volumebtn_bplayer {
 	float: right;
@@ -228,7 +230,7 @@ bplayer {
 	top: 0;
 	left: 0;
 	width: 80px;
-	margin-left: 5px;
+	margin-left: 6px;
 	padding-right: 3px;
 	height: 20px;
 }
@@ -309,7 +311,7 @@ bplayer {
 }
 .slim_bPlayer .volume_bplayer:hover {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0);
-	width: 105px;
+	width: 109px;
 }
 .slim_bPlayer .volumebar_bplayer {
 	height: 30px;
