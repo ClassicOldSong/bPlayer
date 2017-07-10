@@ -71,7 +71,8 @@ const bPlayer = class {
 
 		const status = {
 			progressdown: false,
-			volumedown: false
+			volumedown: false,
+			seekID: 0
 		}
 
 		// Get all needed elements
@@ -203,6 +204,25 @@ const bPlayer = class {
 			this._el.loop = !this._el.loop
 		})
 
+		els.audio.addEventListener('seeking', () => {
+			// Cancle last seek before creating a new one
+			if (status.seekID) window.clearTimeout(status.seekID)
+
+			const currentTime = els.audio.currentTime
+			const paused = els.audio.paused
+			const resume = () => {
+				els.audio.removeEventListener('canplay', resume)
+				els.audio.currentTime = currentTime
+				if (!paused) els.audio.play()
+			}
+			status.seekID = window.setTimeout(() => {
+				els.audio.load()
+				els.audio.addEventListener('canplay', resume)
+			}, 100)
+		})
+		els.audio.addEventListener('seeked', () => {
+			window.clearTimeout(status.seekID)
+		})
 		els.audio.addEventListener('timeupdate', function() {
 			played.style.width = `${this.currentTime / this.duration * 100}%`
 			current.textContent = formatTime(this.currentTime)
