@@ -211,6 +211,7 @@ const bPlayer = class {
 			const currentTime = els.audio.currentTime
 			const paused = els.audio.paused
 			const resume = () => {
+				status.seekID = 0
 				els.audio.removeEventListener('canplay', resume)
 				els.audio.currentTime = currentTime
 				if (!paused) els.audio.play()
@@ -218,9 +219,10 @@ const bPlayer = class {
 			status.seekID = window.setTimeout(() => {
 				els.audio.load()
 				els.audio.addEventListener('canplay', resume)
-			}, 100)
+			}, 500)
 		})
 		els.audio.addEventListener('seeked', () => {
+			status.seekID = 0
 			window.clearTimeout(status.seekID)
 		})
 		els.audio.addEventListener('timeupdate', function() {
