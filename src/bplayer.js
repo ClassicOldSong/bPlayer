@@ -222,8 +222,8 @@ const bPlayer = class {
 			}, 500)
 		})
 		els.audio.addEventListener('seeked', () => {
-			status.seekID = 0
 			window.clearTimeout(status.seekID)
+			status.seekID = 0
 		})
 		els.audio.addEventListener('timeupdate', function() {
 			played.style.width = `${this.currentTime / this.duration * 100}%`
