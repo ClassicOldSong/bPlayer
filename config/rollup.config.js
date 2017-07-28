@@ -44,7 +44,7 @@ module.exports = {
 		}),
 		replace({
 			ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-			VERSION: JSON.stringify(`${version}.${git.branch()}.${git.short()}`)
+			VERSION: JSON.stringify(`${version}.${git.short()}`)
 		}),
 		(process.env.NODE_ENV === 'production' && uglify())
 	]
