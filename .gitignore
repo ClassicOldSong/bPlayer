@@ -10,7 +10,6 @@ gen/
 *~
 *.*~
 .fuse_*
-yarn.lock
 cache/
 
 # Project files
@@ -23,3 +22,7 @@ node_modules/
 
 # Old files
 src/bplayer.old.js
+
+# Binaries
+test/bplayer.dev.js
+dist/bplayer.min.js

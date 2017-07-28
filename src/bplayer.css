@@ -160,6 +160,14 @@ bplayer {
 	background-color: #A91212;
 	box-shadow: #A91212 0px 0px 3px;
 	transition: width 100ms linear;
+	overflow: hidden;
+}
+.glow_bplayer {
+	position: absolute;
+	right: 0;
+	width: 20px;
+	height: 100%;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.6));
 }
 .progressctl_bplayer {
 	position: absolute;
