@@ -394,7 +394,10 @@ const bPlayer = class {
 			for (let i in defaults) {
 				if (data[i] === null || typeof data[i] === 'undefined') data[i] = defaults[i]
 			}
-		} else data = Object.assign({}, defaults)
+		} else {
+			data = {}
+			for (let i in defaults) data[i] = defaults[i]
+		}
 		for (let i in defaults) this[i](data[i])
 	}
 
