@@ -1,116 +1,12 @@
-
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="zh-cn">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-	<meta name="msapplication-tap-highlight" content="no"/>
-	<title>bPlayer - A Great Replacement for Audio Players</title>
-	<script src="./bplayer.dev.js"></script>
-	<script>
-		(function() {
-			var init = function() {
-				document.removeEventListener('DOMContentLoaded', init, false);
-				var bp1 = new bPlayer("#bplayer1");
-				var bp2 = new bPlayer("#bplayer2");
-				bp1.color("#66ccff").autoplay(true).src("https://m1.jixun.moe/521371/192000/94100067566762c535b2ed589fb7eb8c5b8f2950cd81975849b6613f17b15644").title("Chaos of silence").artist("Sane Masayuki").cover("http://p1.music.126.net/9elGVkEwQ9QJj0K7ZrYsdA==/869713697571024.jpg?param=60x60");
-				bp2.color("#CC3366").src("https://m1.jixun.moe/454966295/192000/ebffe7b16ebd274560fe078f2ee0f175627c3b28b4323cfdbd498a54032a286d").loop(true).title("Re:xxx").artist("ELECTROCUTICA").cover("http://p3.music.126.net/BPyAZK0VD56feVGQi8DA0w==/18550960185547685.jpg?param=60x60");
-				var bp3 = new bPlayer("#bplayer3", {
-					color: "#41bffe",
-					src: "https://m1.jixun.moe/410042944/192000/3ffcda3ea383747ab4d04ab79f9a0b9fb25898be33bd3a91191eee4cd29f8824",
-					title: "Loopliness",
-					artist: "ClassicOldSong",
-					cover: "http://p1.music.126.net/oajD4HBRZYlMM1b7NVTlxA==/17816486416670349.jpg?param=30x30",
-					slim: true
-				});
-				bPlayer.scan();
-				window.bp1 = bp1;
-				window.bp2 = bp2;
-				window.bp3 = bp3;
-			}
-			document.addEventListener('DOMContentLoaded', init, false);
-		})();
-	</script>
-	<style>
-		html {
-			font-family:
-		Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", STXihei, STHeiti, Heiti, SimSun, sans-serif;
-		}
-		code {
-			border: 1px solid #999;
-			border-radius: 5px;
-			background-color: #AAA;
-			padding: 3px 5px;
-			color: #FFF;
-		}
-		a {
-			text-decoration: none;
-			color:#666;
-		}
-		a:hover{
-			color:#999;
-		}
-		p {
-			line-height: 2em;
-			margin:0 0 18px;
-			text-align: center;
-		}
-		small {
-			font-size: 60%;
-		}
-		.center {
-			margin: 0 auto;
-			max-width: 900px;
-		}
-		.test {
-			margin: 30px auto;
-		}
-		.narrow {
-			max-width: 320px;
-		}
-		.links{
-			margin:20px 0;
-			font-size: 0.75em;
-			text-align: center;
-		}
-	</style>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=3.0; width=device-width">
+	<title>bPlayer</title>
+	<meta http-equiv='refresh' content='0; url=https://bplayer.ccoooss.com' />
 </head>
 <body>
-	<div class="center">
-		<h1>bPlayer - A Great Replacement for Audio Players</h1>
-		<div class="test">
-			<h3>#bplayer1/bp1 with autoplay enabled</h3>
-			<div id="bplayer1"></div>
-		</div>
-		<div class="test">
-			<h3>#bplayer2/bp2 with loop enabled</h3>
-			<div id="bplayer2"></div>
-		</div>
-		<div class="test">
-			<h3>#bplayer3/bp3 created from JSON with slim mode enabled</h3>
-			<div id="bplayer3"></div>
-		</div>
-		<div class="test">
-			<h3>#bplayer4 converted from Audio element with loop enabled in narrow mode</h3>
-			<div class="narrow">
-				<audio id="bplayer4" controls="bplayer" loop="true" title="Before You Were Gone" artist="Xeuphoria" slim="false" color="#F55177" cover="http://p1.music.126.net/SM4DSR9CcPrIz2AuJMcbzQ==/7932976395107627.jpg?param=60x60" src="https://m1.jixun.moe/32924244/192000/d7e6fae7431c7fe07491a1ed136b094d9bda28dfcc08d8395641c1b481f53098"></audio>
-			</div>
-		</div>
-		<div class="test">
-			<h3>#bplayer5 converted from Audio element with slim mode enabled in narrow mode</h3>
-			<div class="narrow">
-				<audio id="bplayer5" controls="bplayer" title="Listen" artist="Said The Sky" slim="true" color="#FECB1F" cover="http://p1.music.126.net/nnM5AnJxhGbQ0kFGGMtg7w==/6642149744463772.jpg?param=60x60" src="https://m1.jixun.moe/29710964/192000/bbbf8b7878e54a2f265c7c2add1a5dc208a36afeb90c4f2468b51453f381e46f"></audio>
-			</div>
-		</div>
-		<hr>
-		<p>You can control <code>bp1</code>, <code>bp2</code>, <code>bp3</code> in console, such as <code>bp1.color("#FF2870")</code><br>
-		As to those elements that converted from Audio tags, ypu can control them via it's original CSS selector, such as <br /><code>document.querySelector('#bplayer4').title = "whatever you want"</code></p>
-		<p><b>*Allrights of music used in DEMO are reserved by their author*</b><br /><small>Whisper: Loopliness is created by myself 😂</small></p>
-		<br />
-		<div class="links">
-			<a href="https://github.com/ClassicOldSong/bPlayer" target="_blank">View on GitHub</a> | <a href="https://nzone.link" target="_blank">Visit NZone!</a> | <a href="https://ccoooss.com" target="_blank">Visit my blog</a>
-		</div>
-	</div>
+	Redirecting to https://bplayer.ccoooss.com...
 </body>
 </html>
