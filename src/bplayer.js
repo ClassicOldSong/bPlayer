@@ -1,9 +1,7 @@
-/* global VERSION */
-'use strict'
-
 // Import everything
 import content from './bplayer.html'
 import { warn } from './debug.js'
+import { version } from '../package.json'
 import './bplayer.css'
 
 const defaults = {
@@ -539,7 +537,7 @@ const bPlayer = class {
 	}
 
 	static get version() {
-		return VERSION
+		return version
 	}
 }
 
@@ -565,4 +563,4 @@ color: #FEDCBA;
 font-size: 12px;
 `
 // Show information when bPlayer loaded successfully.
-console.log(`%c bPlayer %c v${VERSION} \n%c See http://bplayer.js.org for detail. `, ls1, ls2, ls3)
+console.log(`%c bPlayer %c v${version} \n%c See http://bplayer.js.org for detail. `, ls1, ls2, ls3)

@@ -1,0 +1,28 @@
+script: npm run build
+language: node_js
+node_js:
+- '8'
+env:
+- BUILD_ENV=CI
+cache:
+  directories:
+  - node_modules
+notifications:
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
+deploy:
+- provider: releases
+  api_key:
+    secure: cnvG4KkrfRlwhN/eGb/ULkdde2jwy/4B0owe+8Cf3KMA9ip1UDoB7pb6DMSApGkN5IguFnIrAG+mnGHauaEDrrog266Tt7iC5QWLti9XOYpvGZ2rAUn4YARFEsDH9oepSNbs5jKgoCYcT/mXQVnDRDY/rID0+TE/Ku3hMlKLomM2q1Kmmxc+/anzXLHRGH5x2OJ56Hv0oZ324/t3oQkzq3k8eHCdyg+FshPjTeWBz6nU18XP6LjLHcsOoQ3tI1y0KCKkKZBEok5LTOhk4zbO3PxfsHdycwiHcsDVbSKbSRv5xZtm8258H1+oZB8LVOqOzce9MaNaOjAUjCNOsEfxHQhDiJVD6QguD9T7s9a2ssDJwGa0GXg+iMpVGCxdmBattRodDBzJ+9tLeuvwS6iweroNnDjBDCj14hjZd9dv/8rI+6axVjYEf9jZGIj1TdW460GdMx7Qbz+eYHNdgD7rRKrQlE/zZ29sxZhQpN/V0/1/CnvlRfvtWrZSfzD/S/XJrjQMm9Nn7dORJpenuIhleBRFUks739c2JxQc6KV3smMH6gRmmW00uysiRhZlijFl8dnHLQo8xkQUv++jGMpPq/6otBA3IIKBJh2a5H/o09ItI6nFBK/+bG7vX6RULmzPCMOgE37AbmGwGFb+0K+GT9qKwPt7X5TjSzGwn2p30h0=
+  file:
+    - dist/bplayer.min.js
+    - dist/bplayer.min.js.map
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: npm
+  email: syqlds@126.com
+  api_key:
+    secure: QgbfIiR03WAoKd95HLzVXRPV4ttGWTd/uiBh8M0OzA8lsefNGzkhTcbyQELdlFeo4KUD4r2JWalmmT0VYipBmzFVwI88ty3QKvdRuPPw0lQZX4T2L0xVZ/EPWwd4B68hiEaglbEy5GBa/fw8HmEiOnmBzpO2YccefZHTxgmrXUR6tMr6g9nNcF03XyZbqwQlvlx2lirYnGs0/W/4ccXG4UoMd1B9rnTLwAbfXy1Lzw7QG2SH6Qo7JArhuZTCggIUtSakMTPT+YqbZs4QRBIAwc//X3QMUw3vTkmmzRwmoxx0zTlz0LbkauLMfqLsFk8vAz+mmcXluRwB4ghdbLB14fLgAWFTfc0KAQooZRrvw614u1EAxCsT1EMw1riMxFmdzHop9Ftg9iIhNdEFhD25MTjXfcFgVifqXTot3ZEu9qXcTPUhSP8aEXMyG2zam1EXam7ue6PGM/XtX+xUQ2IM/Vc28s22ZsZQQ99UU7vUb513ZBfKEDTZyJDHQImBrfMEisQ4Mnn6I6QAJAPiklOMO2pIF47mu1FCiFfuWl3WWb4SvlWXk4sMUjXU2+rPPs94948zLYrWO0BSbV5529YQRjKR501lXVcQbOrH3SRMJfE2aWoM6DxnJxgX7RqRyu6ObLn5QRzpI7biKJ3fFNudidAkoH3GtSc0hAjjitYkB50=
+  skip_cleanup: true
+  on:
+    branch: master
