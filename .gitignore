@@ -25,4 +25,6 @@ src/bplayer.old.js
 
 # Binaries
 test/bplayer.dev.js
+test/bplayer.dev.js.map
 dist/bplayer.min.js
+dist/bplayer.min.js.map
